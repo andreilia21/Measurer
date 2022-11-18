@@ -1,19 +1,16 @@
 package com.dewerro.measurer
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.dewerro.measurer.databinding.FragmentArBinding
+import com.dewerro.measurer.databinding.FragmentSelectImageBinding
 
-/**
- * A simple [Fragment] subclass as the second destination in the navigation.
- */
-class ARFragment : Fragment() {
+class SelectImageFragment : Fragment() {
 
-    private var _binding: FragmentArBinding? = null
+    private var _binding: FragmentSelectImageBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -23,13 +20,16 @@ class ARFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentArBinding.inflate(inflater, container, false)
+        _binding = FragmentSelectImageBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.measureWithArButton.setOnClickListener {
+            findNavController().navigate(R.id.action_SelectImageFragment_to_ARFragment)
+        }
     }
 
     override fun onDestroyView() {

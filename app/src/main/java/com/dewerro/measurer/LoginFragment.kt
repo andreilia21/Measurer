@@ -1,16 +1,19 @@
 package com.dewerro.measurer
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.dewerro.measurer.databinding.FragmentLoginBinding
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.ActionCodeSettings
+import com.google.firebase.auth.ktx.actionCodeSettings
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
 class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
@@ -19,25 +22,63 @@ class LoginFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private val actionCodeSettings: ActionCodeSettings
+        get() {
+            return actionCodeSettings {
+                // This must be true
+                handleCodeInApp = true
+                setAndroidPackageName(
+                    "com.dewerro.measurer",
+                    true, /* installIfNotAvailable */
+                    "21" /* minimumVersion */
+                )
+            }
+        }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        signUpButton()
-    }
+        binding.loginButton.setOnClickListener {
+            loginUser()
+        }
 
-    private fun signUpButton() {
         binding.signUpButton.setOnClickListener {
             findNavController().navigate(R.id.action_LoginFragment_to_SignupFragment)
+        }
+    }
+
+    private fun loginUser() {
+        val email = binding.emailTextField.text.toString()
+        val password = binding.passwordTextField.text.toString()
+
+        val task = try {
+            Firebase.auth.signInWithEmailAndPassword(email, password)
+        } catch (e: IllegalArgumentException) {
+            Snackbar.make(binding.root, R.string.empty_fields, Snackbar.LENGTH_LONG).show()
+
+            e.printStackTrace()
+
+            return
+        }
+
+        task.addOnCompleteListener {
+            if (it.isSuccessful) {
+                findNavController().navigate(R.id.action_LoginFragment_to_SelectImageFragment)
+
+                Log.i("Firebase", "Sign in sent successfully.")
+            } else {
+                Snackbar.make(binding.root, R.string.no_user, Snackbar.LENGTH_LONG).show()
+
+                Log.e("Firebase", "Error signing in.", it.exception)
+            }
         }
     }
 
