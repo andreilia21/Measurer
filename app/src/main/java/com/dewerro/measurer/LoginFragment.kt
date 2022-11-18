@@ -9,8 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.dewerro.measurer.databinding.FragmentLoginBinding
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.ActionCodeSettings
-import com.google.firebase.auth.ktx.actionCodeSettings
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -21,19 +19,6 @@ class LoginFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-
-    private val actionCodeSettings: ActionCodeSettings
-        get() {
-            return actionCodeSettings {
-                // This must be true
-                handleCodeInApp = true
-                setAndroidPackageName(
-                    "com.dewerro.measurer",
-                    true, /* installIfNotAvailable */
-                    "21" /* minimumVersion */
-                )
-            }
-        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,7 +58,7 @@ class LoginFragment : Fragment() {
             if (it.isSuccessful) {
                 findNavController().navigate(R.id.action_LoginFragment_to_SelectImageFragment)
 
-                Log.i("Firebase", "Sign in sent successfully.")
+                Log.i("Firebase", "Sign in successfully.")
             } else {
                 Snackbar.make(binding.root, R.string.no_user, Snackbar.LENGTH_LONG).show()
 

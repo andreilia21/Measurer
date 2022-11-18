@@ -10,16 +10,20 @@
         android:name="com.dewerro.measurer.LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
-            android:id="@+id/action_LoginFragment_to_SignupFragment"
-            app:destination="@id/SignupFragment" />
-        <action
             android:id="@+id/action_LoginFragment_to_SelectImageFragment"
             app:destination="@id/SelectImageFragment" />
+        <action
+            android:id="@+id/action_LoginFragment_to_SignupFragment"
+            app:destination="@id/SignupFragment" />
     </fragment>
     <fragment
         android:id="@+id/SignupFragment"
         android:name="com.dewerro.measurer.SignUpFragment"
-        tools:layout="@layout/fragment_sign_up" />
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_SignupFragment_to_SelectImageFragment"
+            app:destination="@id/SelectImageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/SelectImageFragment"
         android:name="com.dewerro.measurer.SelectImageFragment"
