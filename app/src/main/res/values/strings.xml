@@ -1,11 +1,5 @@
 <resources>
     <string name="app_name">Measurer</string>
-    <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
     <string name="to_measurement_button">To Measurement</string>
     <string-array name="arcore_measurement_buttons">
@@ -60,4 +54,18 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <!-- Log in fragment -->
+    <string name="welcome_back">Welcome back!</string>
+    <string name="email_address">Email address</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log in</string>
+    <string name="no_user">User not found.</string>
+    <string name="empty_fields">Fields must not be empty.</string>
+
+    <!-- Sign up fragment -->
+    <string name="let_s_create_new_account">Let\'s create new account!</string>
+    <string name="create">Create!</string>
+    <string name="sign_up">Sign up</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

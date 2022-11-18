@@ -91,11 +91,9 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentArBinding.inflate(inflater, container, false)
         Filament.init()
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
