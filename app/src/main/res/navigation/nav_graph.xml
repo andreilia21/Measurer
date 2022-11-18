@@ -16,8 +16,7 @@
     <fragment
         android:id="@+id/SignupFragment"
         android:name="com.dewerro.measurer.SignUpFragment"
-        tools:layout="@layout/fragment_sign_up"
-        />
+        tools:layout="@layout/fragment_sign_up" />
     <fragment
         android:id="@+id/ARFragment"
         android:name="com.dewerro.measurer.ARFragment"

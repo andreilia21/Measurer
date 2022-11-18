@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/purple"
+    android:background="?colorPrimary"
     tools:context=".LoginFragment">
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -12,7 +12,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:background="@drawable/ic_baseline_straighten_24"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="?colorOnPrimary"
         app:layout_constraintBottom_toTopOf="@id/login_card"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
-        android:textColor="@color/white"
+        android:textColor="?colorOnPrimary"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -73,8 +73,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/email_address"
                         android:imeOptions="actionDone"
-                        android:singleLine="true"
-                        android:textColor="@color/purple" />
+                        android:singleLine="true" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -90,8 +89,7 @@
                         android:hint="@string/password"
                         android:imeOptions="actionDone"
                         android:inputType="textPassword"
-                        android:singleLine="true"
-                        android:textColor="@color/purple" />
+                        android:singleLine="true" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -104,11 +102,12 @@
                     app:cornerRadius="10dp" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/sign_up_button"
                     style="@style/Widget.AppCompat.Button.Borderless.Colored"
                     android:layout_width="150dp"
                     android:layout_height="50dp"
                     android:text="@string/sign_up"
-                    android:textColor="@color/purple" />
+                    android:textColor="?colorPrimary" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
