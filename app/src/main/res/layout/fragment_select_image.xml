@@ -6,13 +6,57 @@
     android:layout_height="match_parent"
     tools:context=".SelectImageFragment">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/measure_with_ar_button"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/select_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:text="@string/select_the_method_of_measurement"
+        android:textAlignment="center"
+        android:textSize="32sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/measure_with_ar_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_outline_add_a_photo"
+        app:layout_constraintEnd_toStartOf="@id/measure_with_image"
+        app:layout_constraintStart_toStartOf="@id/select_text_view"
+        app:layout_constraintTop_toBottomOf="@id/select_text_view" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/augmented_reality"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/measure_with_ar_button"
+        app:layout_constraintStart_toStartOf="@id/measure_with_ar_button"
+        app:layout_constraintTop_toBottomOf="@id/measure_with_ar_button" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/measure_with_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_outline_image"
+        app:layout_constraintEnd_toEndOf="@id/select_text_view"
+        app:layout_constraintStart_toEndOf="@id/measure_with_ar_button"
+        app:layout_constraintTop_toBottomOf="@id/select_text_view" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/image_from_gallery"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/measure_with_image"
+        app:layout_constraintStart_toStartOf="@id/measure_with_image"
+        app:layout_constraintTop_toBottomOf="@id/measure_with_image" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
