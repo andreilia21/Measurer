@@ -1,11 +1,15 @@
 package com.dewerro.measurer
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast.LENGTH_LONG
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.dewerro.measurer.databinding.FragmentSelectImageBinding
@@ -21,6 +25,8 @@ class SelectImageFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private lateinit var galleryLauncher: ActivityResultLauncher<String>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,13 +35,23 @@ class SelectImageFragment : Fragment() {
         return binding.root
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
+            // picked image result here
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.measureWithArButton.setOnClickListener {
             findNavController().navigate(R.id.action_SelectImageFragment_to_ARFragment)
+        }
 
-            createOrder()
+        binding.measureWithImage.setOnClickListener {
+            galleryLauncher.launch("image/*")
         }
     }
 
