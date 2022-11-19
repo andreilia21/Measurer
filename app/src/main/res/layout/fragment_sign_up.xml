@@ -11,7 +11,7 @@
         android:id="@+id/login_logo"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:background="@drawable/ic_baseline_straighten_24"
+        android:background="@drawable/ic_baseline_straighten"
         android:backgroundTint="?colorOnPrimary"
         app:layout_constraintBottom_toTopOf="@id/login_card"
         app:layout_constraintEnd_toEndOf="parent"
