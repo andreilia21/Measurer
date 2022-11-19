@@ -68,7 +68,7 @@ class SignUpFragment : Fragment() {
         }
     }
 
-    fun saveData(email: String, password: String) {
+    private fun saveData(email: String, password: String) {
         val preferences = activity?.getSharedPreferences("user_data", Context.MODE_PRIVATE)
         preferences?.edit {
             putString("email", email)
