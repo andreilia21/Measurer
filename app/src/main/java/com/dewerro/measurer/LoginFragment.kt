@@ -1,5 +1,6 @@
 package com.dewerro.measurer
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -31,8 +32,20 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.loginButton.setOnClickListener {
-            loginUser()
+        val preferences = activity?.getSharedPreferences("user_data", Context.MODE_PRIVATE)
+
+        val prefsEmail = preferences?.getString("email", "")
+        val prefsPassword = preferences?.getString("password", "")
+
+        if (prefsEmail.isNullOrEmpty() && prefsPassword.isNullOrEmpty()) {
+            binding.loginButton.setOnClickListener {
+                val email = binding.emailTextField.text.toString()
+                val password = binding.passwordTextField.text.toString()
+
+                loginUser(email, password)
+            }
+        } else {
+            loginUser(prefsEmail!!, prefsPassword!!)
         }
 
         binding.signUpButton.setOnClickListener {
@@ -40,10 +53,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun loginUser() {
-        val email = binding.emailTextField.text.toString()
-        val password = binding.passwordTextField.text.toString()
-
+    private fun loginUser(email: String, password: String) {
         val task = try {
             Firebase.auth.signInWithEmailAndPassword(email, password)
         } catch (e: IllegalArgumentException) {
@@ -60,7 +70,7 @@ class LoginFragment : Fragment() {
 
                 Log.i("Firebase", "Sign in successfully.")
             } else {
-                Snackbar.make(binding.root, R.string.no_user, Snackbar.LENGTH_LONG).show()
+                Snackbar.make(binding.root, it.exception!!.localizedMessage!!, Snackbar.LENGTH_LONG).show()
 
                 Log.e("Firebase", "Error signing in.", it.exception)
             }

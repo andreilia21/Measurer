@@ -1,10 +1,12 @@
 package com.dewerro.measurer
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.dewerro.measurer.databinding.FragmentSignUpBinding
@@ -56,11 +58,21 @@ class SignUpFragment : Fragment() {
                 findNavController().navigate(R.id.action_SignupFragment_to_SelectImageFragment)
 
                 Log.i("Firebase", "User created successfully.")
+
+                saveData(email, password)
             } else {
                 Snackbar.make(binding.root, it.exception!!.localizedMessage!!, Snackbar.LENGTH_LONG).show()
 
                 Log.e("Firebase", "Error creating user.", it.exception)
             }
+        }
+    }
+
+    fun saveData(email: String, password: String) {
+        val preferences = activity?.getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        preferences?.edit {
+            putString("email", email)
+            putString("password", password)
         }
     }
 
