@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_SelectImageFragment_to_ImageFragment"
             app:destination="@id/ImageFragment" />
+        <action
+            android:id="@+id/action_SelectImageFragment_to_LoginFragment"
+            app:destination="@id/LoginFragment" />
     </fragment>
     <fragment
         android:id="@+id/ARFragment"

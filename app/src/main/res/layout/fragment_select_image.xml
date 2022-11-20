@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".SelectImageFragment">
 
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/logout_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_baseline_logout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/select_text_view"
         android:layout_width="wrap_content"
