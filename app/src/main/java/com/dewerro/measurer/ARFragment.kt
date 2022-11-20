@@ -110,7 +110,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
         distanceModeTextView = binding.distanceView
         multipleDistanceTableLayout = binding.multipleDistanceTable
 
-        arFragment!!.arSceneView!!.session!!.config!!.planeFindingMode = Config.PlaneFindingMode.VERTICAL
+        configureSession(arFragment!!.arSceneView!!.session!!)
 
         initCM = resources.getString(R.string.initCM)
 
@@ -142,6 +142,12 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
                 }
             }
         }
+    }
+
+    private fun configureSession(session: Session){
+        val sessionConfig = Config(session)
+        sessionConfig.planeFindingMode = Config.PlaneFindingMode.VERTICAL
+        session.configure(sessionConfig)
     }
 
     private fun initDistanceTable(){
