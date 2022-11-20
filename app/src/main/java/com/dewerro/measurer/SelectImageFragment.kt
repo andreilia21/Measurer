@@ -57,26 +57,6 @@ class SelectImageFragment : Fragment() {
         }
     }
 
-    private fun createOrder() {
-        val db = Firebase.firestore
-
-        val orderExample = hashMapOf(
-            "material" to "wood",
-            "width" to 100,
-            "height" to 100,
-            "area" to 100 * 100
-        )
-
-        db.collection("doors").add(orderExample).addOnCompleteListener {
-            if (it.isSuccessful) {
-                Log.i("Firebase", "Order sent successfully.")
-            } else {
-                Snackbar.make(binding.root, it.exception!!.localizedMessage!!, LENGTH_LONG)
-                Log.e("Firebase", "Error sending order.", it.exception)
-            }
-        }
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
