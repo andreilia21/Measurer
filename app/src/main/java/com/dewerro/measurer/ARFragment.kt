@@ -14,10 +14,7 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import com.dewerro.measurer.databinding.FragmentArBinding
 import com.google.android.filament.Filament
-import com.google.ar.core.Anchor
-import com.google.ar.core.HitResult
-import com.google.ar.core.Plane
-import com.google.ar.core.Pose
+import com.google.ar.core.*
 import com.google.ar.sceneform.AnchorNode
 import com.google.ar.sceneform.FrameTime
 import com.google.ar.sceneform.Node
@@ -99,20 +96,21 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        if (!checkIsSupportedDeviceOrFinish()) {
-//            Toast.makeText(applicationContext, "Device not supported", Toast.LENGTH_LONG)
-//                .show()
-//        }
+        if (!checkIsSupportedDeviceOrFinish(activity!!)) {
+            Toast.makeText(activity!!.applicationContext, "Device not supported", Toast.LENGTH_LONG)
+                .show()
+        }
 
         val distanceModeArray = resources.getStringArray(R.array.distance_mode)
         distanceModeArray.map {
             distanceModeArrayList.add(it)
         }
-        //arFragment = MainActivity().supportFragmentManager.findFragmentById(R.id.sceneform_fragment) as ArFragment?
-        //arFragment = supportFragmentManager.findFragmentById(R.id.sceneform_fragment) as ArFragment?
+
         arFragment = binding.sceneformFragment.getFragment()
         distanceModeTextView = binding.distanceView
         multipleDistanceTableLayout = binding.multipleDistanceTable
+
+        arFragment!!.arSceneView!!.session!!.config!!.planeFindingMode = Config.PlaneFindingMode.VERTICAL
 
         initCM = resources.getString(R.string.initCM)
 
@@ -297,7 +295,6 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
                 dialog.show()
                 return@exceptionally null
             }
-
         ViewRenderable
             .builder()
             .setView(context, arrow10UpLinearLayout)
