@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.dewerro.measurer.databinding.FragmentSelectImageBinding
@@ -55,6 +56,13 @@ class SelectImageFragment : Fragment() {
 
         binding.logoutButton.setOnClickListener {
             Firebase.auth.signOut()
+
+            val preferences = activity?.getSharedPreferences("user_data", Context.MODE_PRIVATE)
+            preferences?.edit {
+                remove("email")
+                remove("password")
+            }
+
             findNavController().navigate(R.id.action_SelectImageFragment_to_LoginFragment)
         }
     }
