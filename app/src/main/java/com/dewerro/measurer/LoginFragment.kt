@@ -39,12 +39,7 @@ class LoginFragment : Fragment() {
         val prefsPassword = preferences?.getString("password", "")
 
         if (prefsEmail.isNullOrEmpty() && prefsPassword.isNullOrEmpty()) {
-            binding.loginButton.setOnClickListener {
-                val email = binding.emailTextField.text.toString()
-                val password = binding.passwordTextField.text.toString()
-
-                loginUser(email, password)
-            }
+            findNavController().navigate(R.id.action_LoginFragment_to_SelectImageFragment)
         } else {
             loginUser(prefsEmail!!, prefsPassword!!)
         }
