@@ -20,6 +20,9 @@
 
     <!-- Measure with image -->
     <string name="place_4_dots">Place 4 dots on image!</string>
+    <string name="next">Next</string>
+    <string name="clear">Clear</string>
+    <string name="select_scale">Select scale</string>
 
     <!-- Measure with AR -->
     <string name="to_measurement_button">To Measurement</string>
@@ -30,7 +33,6 @@
     <string name="distance_of_2_points">Distance of 2 points</string>
     <string name="distance_of_multiple_points">Distance of multiple points</string>
     <string name="distance_from_ground">Distance from ground</string>
-    <string name="clear">Clear</string>
     <string name="initCM">0.0</string>
     <string-array name="distance_mode">
         <item>@string/distance_from_camera</item>
