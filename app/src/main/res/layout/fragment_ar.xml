@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.fragment.app.FragmentContainerView android:name="com.google.ar.sceneform.ux.ArFragment"
+        <androidx.fragment.app.FragmentContainerView android:name="com.dewerro.measurer.view.MeasurerArFragment"
             android:id="@+id/sceneform_fragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
