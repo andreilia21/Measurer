@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ImageFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/image_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_baseline_arrow_back"
+        app:navigationIconTint="?colorOnPrimary"
+        app:title="@string/place_4_dots"
+        app:titleTextColor="?colorOnPrimary" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/image_to_paint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/image_center_guideline"
+        app:layout_constraintTop_toBottomOf="@id/image_toolbar" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/image_center_guideline"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintGuide_percent="1.4" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

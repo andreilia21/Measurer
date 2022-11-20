@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.dewerro.measurer.databinding.FragmentLoginBinding
@@ -69,11 +70,21 @@ class LoginFragment : Fragment() {
                 findNavController().navigate(R.id.action_LoginFragment_to_SelectImageFragment)
 
                 Log.i("Firebase", "Sign in successfully.")
+
+                saveData(email, password)
             } else {
                 Snackbar.make(binding.root, it.exception!!.localizedMessage!!, Snackbar.LENGTH_LONG).show()
 
                 Log.e("Firebase", "Error signing in.", it.exception)
             }
+        }
+    }
+
+    private fun saveData(email: String, password: String) {
+        val preferences = activity?.getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        preferences?.edit {
+            putString("email", email)
+            putString("password", password)
         }
     }
 

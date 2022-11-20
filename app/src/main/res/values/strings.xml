@@ -18,6 +18,9 @@
     <string name="augmented_reality">Augmented Reality</string>
     <string name="image_from_gallery">Image From Gallery</string>
 
+    <!-- Measure with image -->
+    <string name="place_4_dots">Place 4 dots on image!</string>
+
     <!-- Measure with AR -->
     <string name="to_measurement_button">To Measurement</string>
     <string-array name="arcore_measurement_buttons">

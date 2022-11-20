@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast.LENGTH_LONG
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -39,7 +38,10 @@ class SelectImageFragment : Fragment() {
         super.onAttach(context)
 
         galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
-            // picked image result here
+            val bundle = Bundle()
+            bundle.putString("imageURI", it.toString())
+
+            findNavController().navigate(R.id.action_SelectImageFragment_to_ImageFragment, bundle)
         }
     }
 
