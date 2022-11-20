@@ -4,15 +4,12 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager
 import android.content.Context
-import android.graphics.Color.WHITE
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.dewerro.measurer.ar.ArFragmentPrepareHelper
-import com.dewerro.measurer.ar.CalcHelper.calculateDistance
-import com.dewerro.measurer.ar.MeasureUnit
 import com.dewerro.measurer.ar.RenderableUtils.createRenderable
 import com.dewerro.measurer.databinding.FragmentArBinding
 import com.google.android.filament.Filament
@@ -43,17 +40,11 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
     private var arFragment: ArFragment? = null
 
     private lateinit var pointTextView: TextView
-    private lateinit var multipleDistanceTableLayout: TableLayout
 
     private val placedAnchors = ArrayList<Anchor>()
     private val placedAnchorNodes = ArrayList<AnchorNode>()
     private val fromGroundNodes = ArrayList<List<Node>>()
 
-    private val multipleDistances = Array(Constants.maxNumMultiplePoints) {
-        Array<TextView?>(Constants.maxNumMultiplePoints) {
-            null
-        }
-    }
     private lateinit var initCM: String
 
     private lateinit var clearButton: Button
@@ -76,16 +67,13 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
         }
 
         arFragment = binding.sceneformFragment.getFragment()
-        multipleDistanceTableLayout = binding.multipleDistanceTable
 
         initCM = resources.getString(R.string.initCM)
 
-        initDistanceTable()
-
         Toast.makeText(context,
-            "Find plane and tap 4 points",
-            Toast.LENGTH_LONG)
-            .show()
+            resources.getString(R.string.find_plane),
+            Toast.LENGTH_LONG
+        ).show()
 
         val prepareHelper = ArFragmentPrepareHelper()
 
@@ -97,7 +85,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
         arFragment!!.setOnTapArPlaneListener { hitResult: HitResult, _: Plane?, _: MotionEvent? ->
             if (!prepareHelper.isInitialized()) return@setOnTapArPlaneListener
 
-            tapDistanceOfMultiplePoints(hitResult)
+            placePoint(hitResult)
         }
     }
 
@@ -119,48 +107,6 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
         return true
     }
 
-    private fun initDistanceTable() {
-        val layoutParams = multipleDistanceTableLayout.layoutParams
-        layoutParams.height = Constants.multipleDistanceTableHeight
-        multipleDistanceTableLayout.layoutParams = layoutParams
-
-        for (i in 0 until Constants.maxNumMultiplePoints+1) {
-            val tableRow = TableRow(context)
-            multipleDistanceTableLayout.addView(tableRow,
-                multipleDistanceTableLayout.width,
-                Constants.multipleDistanceTableHeight / (Constants.maxNumMultiplePoints + 1)
-            )
-            for (j in 0 until Constants.maxNumMultiplePoints+1) {
-                val textView = TextView(context)
-                textView.setTextColor(WHITE)
-                if (i==0) {
-                    if (j==0) {
-                        textView.text = "cm"
-                    }
-                    else {
-                        textView.text = (j-1).toString()
-                    }
-                }
-                else {
-                    if (j==0) {
-                        textView.text = (i-1).toString()
-                    }
-                    else if(i==j) {
-                        textView.text = "-"
-                        multipleDistances[i-1][j-1] = textView
-                    }
-                    else {
-                        textView.text = initCM
-                        multipleDistances[i-1][j-1] = textView
-                    }
-                }
-                tableRow.addView(textView,
-                    tableRow.layoutParams.width / (Constants.maxNumMultiplePoints + 1),
-                    tableRow.layoutParams.height)
-            }
-        }
-    }
-
     private fun initClearButton(){
         clearButton = binding.clearButton
         clearButton.setOnClickListener { clearAllAnchors() }
@@ -175,18 +121,10 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
             anchorNode.setParent(null)
         }
         placedAnchorNodes.clear()
-        for (i in 0 until Constants.maxNumMultiplePoints){
-            for (j in 0 until Constants.maxNumMultiplePoints){
-                if (multipleDistances[i][j] != null){
-                    multipleDistances[i][j]!!.text = if(i==j) "-" else initCM
-                }
-            }
-        }
         fromGroundNodes.clear()
     }
 
-    private fun placeAnchor(hitResult: HitResult,
-                            renderable: Renderable){
+    private fun placeAnchor(hitResult: HitResult, renderable: Renderable){
         val anchor = hitResult.createAnchor()
         placedAnchors.add(anchor)
 
@@ -210,7 +148,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
         node.select()
     }
 
-    private fun tapDistanceOfMultiplePoints(hitResult: HitResult){
+    private fun placePoint(hitResult: HitResult){
         if (placedAnchorNodes.size >= Constants.maxNumMultiplePoints){
             return
         }
@@ -220,6 +158,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
             pointTextView.text = placedAnchors.size.toString()
             placeAnchor(hitResult, it)
         }
+
         Log.i(TAG, "Number of anchors: ${placedAnchorNodes.size}")
     }
 
@@ -229,19 +168,8 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
     }
 
     private fun measureMultipleDistances(){
-        if (placedAnchorNodes.size > 1){
-            for (i in 0 until placedAnchorNodes.size){
-                for (j in i+1 until placedAnchorNodes.size){
-                    val distanceMeter = calculateDistance(
-                        placedAnchorNodes[i].worldPosition,
-                        placedAnchorNodes[j].worldPosition
-                    )
-                    val distanceCM = MeasureUnit.CENTIMETRES.convert(distanceMeter)
-                    val distanceCMFloor = "%.2f".format(distanceCM)
-                    multipleDistances[i][j]!!.text = distanceCMFloor
-                    multipleDistances[j][i]!!.text = distanceCMFloor
-                }
-            }
+        if (placedAnchorNodes.size > 5){
+            // TODO Добавить расстояние на экране между всеми поставленными точками, и площадь по центру
         }
     }
 
