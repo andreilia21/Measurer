@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Measurer</string>
+    <string name="empty_fields">Поля не должны быть пустыми.</string>
+
+    <!-- Log in fragment -->
+    <string name="welcome_back">Добро пожаловать!</string>
+    <string name="email_address">Адресс электронной почты</string>
+    <string name="password">Пароль</string>
+    <string name="log_in">Вход</string>
+
+    <!-- Sign up fragment -->
+    <string name="let_s_create_new_account">Давайте создадим новый аккаунт!</string>
+    <string name="create">Создать!</string>
+    <string name="sign_up">Зарегестрироваться</string>
+
+    <!-- SelectImage -->
+    <string name="select_the_method_of_measurement">Выберите способ рассчета.</string>
+    <string name="augmented_reality">Дополненная Реальность</string>
+    <string name="image_from_gallery">Изображение</string>
+
+    <!-- Measure with image -->
+    <string name="place_4_dots">Расположите 4 точки.</string>
+    <string name="next">Далее</string>
+    <string name="clear">Очистить</string>
+    <string name="select_scale">Выбрать масштаб</string>
+
+    <!-- Measure fragment -->
+    <string name="measurement">Рассчеты</string>
+    <string name="send">Отправить</string>
+    <string name="area">Площадь</string>
+    <string name="height">Высота</string>
+    <string name="width">Ширина</string>
+    <string name="material">Материал</string>
+
+    <!-- Measure with AR -->
+    <string name="to_measurement_button">To Measurement</string>
+    <string-array name="arcore_measurement_buttons">
+        <item>@string/to_measurement_button</item>
+    </string-array>
+    <string name="distance_from_camera">Distance from camera</string>
+    <string name="distance_of_2_points">Distance of 2 points</string>
+    <string name="distance_of_multiple_points">Distance of multiple points</string>
+    <string name="distance_from_ground">Distance from ground</string>
+    <string name="initCM">0.0</string>
+    <string-array name="distance_mode">
+        <item>@string/distance_from_camera</item>
+        <item>@string/distance_of_2_points</item>
+        <item>@string/distance_of_multiple_points</item>
+        <item>@string/distance_from_ground</item>
+    </string-array>
+</resources>
