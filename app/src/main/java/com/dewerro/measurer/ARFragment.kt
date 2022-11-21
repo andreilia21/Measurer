@@ -71,8 +71,6 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
         ).show()
 
         val prepareHelper = ArFragmentPrepareHelper()
-
-        prepareHelper.initArrowView(context!!)
         prepareHelper.initRenderable(context!!)
 
         initClearButton()

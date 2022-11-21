@@ -6,12 +6,12 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
-import android.util.Log
-import android.view.MotionEvent
 import com.dewerro.measurer.math.Vector2d
 import com.dewerro.measurer.math.VectorMath.getCentroid
+import com.dewerro.measurer.math.distance
 import com.dewerro.measurer.math.middlePoint
 import com.google.android.material.imageview.ShapeableImageView
+import kotlin.math.pow
 
 class MeasurerImageView : ShapeableImageView {
 
@@ -19,8 +19,9 @@ class MeasurerImageView : ShapeableImageView {
         private const val CIRCLE_RADIUS = 6f
         private const val CIRCLE_COLOR = Color.WHITE
     }
-    
+
     private val points = mutableListOf<Vector2d>()
+    private var pointLengthRatio = 1.0f
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet)
@@ -36,7 +37,6 @@ class MeasurerImageView : ShapeableImageView {
             }
 
             points.forEach {
-                Log.i(this.javaClass.name, "Drawing circle at ${it.x}, ${it.y}")
                 drawCircle(it.x, it.y, CIRCLE_RADIUS, paint)
             }
 
@@ -103,26 +103,34 @@ class MeasurerImageView : ShapeableImageView {
                 textSize = 18f
             }
 
+            val widthMultiplier = 1 / width.toFloat()
+            val heightMultiplier = 1 / height.toFloat()
+
+            val measuredWidth = (leftBottomCorner.distance(rightBottomCorner) * pointLengthRatio * widthMultiplier).round(2)
+            val measuredHeight = (rightTopCorner.distance(rightBottomCorner) * pointLengthRatio * heightMultiplier).round(2)
+            val square = (measuredHeight * measuredWidth).round(2)
+
             drawPath(path, transparentPaint)
-            drawTextOnPath("10,0 m", Path().apply {
+            drawTextOnPath("$measuredWidth m", Path().apply {
                 moveTo(leftBottomCorner)
                 lineTo(rightBottomCorner)
             }, 0f, 5f, textPaint)
-            drawTextOnPath("10,0 m", Path().apply {
+            drawTextOnPath("$measuredHeight m", Path().apply {
                 moveTo(rightTopCorner)
                 lineTo(rightBottomCorner)
             }, 5f, 5f, textPaint)
-            drawTextOnPath("100,0 m²", Path().apply {
+            drawTextOnPath("$square m²", Path().apply {
                 moveTo(leftTopCorner.middlePoint(leftBottomCorner))
                 lineTo(rightTopCorner.middlePoint(rightBottomCorner))
             }, 0f, 5f, textPaint)
         }
     }
 
-    override fun onGenericMotionEvent(event: MotionEvent?): Boolean {
-        Log.i("ImgFrag", "DRAG EVENT ${event?.action}")
-        performClick()
-        return super.onTouchEvent(event)
+    fun setPointLengthRatio(value: Float){
+        pointLengthRatio = value
+        if(getPointsAmount() >= 4){
+            invalidate()
+        }
     }
 
     fun addPoint(position: Vector2d) {
@@ -153,5 +161,11 @@ class MeasurerImageView : ShapeableImageView {
 
     private fun Path.lineTo(point: Vector2d){
         lineTo(point.x, point.y)
+    }
+
+    private fun Float.round(precision: Int): Float {
+        val pr = 10.0.pow(precision).toFloat()
+        val n = this * pr
+        return n.toInt().toFloat() / pr
     }
 }
