@@ -35,6 +35,7 @@
 
     <!-- Measure with AR -->
     <string name="to_measurement_button">To Measurement</string>
+    <string name="place_dots">Поставьте точки</string>
     <string-array name="arcore_measurement_buttons">
         <item>@string/to_measurement_button</item>
     </string-array>

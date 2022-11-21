@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.dewerro.measurer.ar.ArFragmentPrepareHelper
 import com.dewerro.measurer.ar.Constants
 import com.dewerro.measurer.ar.RenderableUtils.createRenderable
@@ -43,8 +44,6 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
     private val placedAnchorNodes = ArrayList<AnchorNode>()
     private val fromGroundNodes = ArrayList<List<Node>>()
 
-    private lateinit var clearButton: Button
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -61,6 +60,8 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
             Toast.makeText(activity!!.applicationContext, "Device not supported", Toast.LENGTH_LONG)
                 .show()
         }
+
+        binding.arToolbar.setNavigationOnClickListener { findNavController().navigateUp() }
 
         arFragment = binding.sceneformFragment.getFragment()
 
@@ -102,8 +103,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
     }
 
     private fun initClearButton(){
-        clearButton = binding.clearButton
-        clearButton.setOnClickListener { clearAllAnchors() }
+        binding.arClearButton.setOnClickListener { clearAllAnchors() }
     }
 
     private fun clearAllAnchors(){
