@@ -39,6 +39,7 @@ class ImageFragment : Fragment() {
 
         setCoordinatesListener()
         setClearButtonListener()
+        setSliderListener()
     }
 
     private fun setCoordinatesListener() {
@@ -59,10 +60,16 @@ class ImageFragment : Fragment() {
         }
     }
     
-    private fun setClearButtonListener(){
+    private fun setClearButtonListener() {
         binding.imageClearButton.setOnClickListener { 
             binding.imageToPaint.clearPoints()
             binding.imageNextButton.isEnabled = false
+        }
+    }
+
+    private fun setSliderListener() {
+        binding.slider.addOnChangeListener { _, value, _ ->
+            binding.imageToPaint.setPointLengthRatio(value)
         }
     }
 
