@@ -8,9 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.dewerro.measurer.databinding.FragmentImageBinding
-import com.dewerro.measurer.models.Vector2d
-import kotlin.math.pow
-import kotlin.math.sqrt
+import com.dewerro.measurer.math.Vector2d
 
 class ImageFragment : Fragment() {
 
@@ -40,37 +38,32 @@ class ImageFragment : Fragment() {
         }
 
         setCoordinatesListener()
+        setClearButtonListener()
     }
 
     private fun setCoordinatesListener() {
-        var clicksCount = 0
+        val imageToPaint = binding.imageToPaint
 
-        val dots = mutableListOf<Vector2d>()
+        imageToPaint.setOnTouchListener { view, motionEvent ->
+            if (imageToPaint.getPointsAmount() < 4) {
+                val point = Vector2d(motionEvent.x, motionEvent.y)
 
-        binding.imageToPaint.setOnTouchListener { view, motionEvent ->
-            if (clicksCount <= 4) {
-                dots.add(Vector2d(motionEvent.x, motionEvent.y))
-                clicksCount++
-            } else {
-                for (i in dots.indices step 2) {
-                    val firstDot = dots[i]
-                    val secondDot = dots[i + 1]
+                imageToPaint.addPoint(point)
+            }
 
-                    println(calculateDistance(Pair(firstDot, secondDot)))
-                }
+            if(imageToPaint.getPointsAmount() == 4 && !binding.imageNextButton.isEnabled){
+                binding.imageNextButton.isEnabled = true
             }
 
             view.performClick()
         }
     }
-
-    fun calculateDistance(coordinates: Pair<Vector2d, Vector2d>): Float {
-        val firstDot = coordinates.first
-        val secondDot = coordinates.second
-
-        val vector = Vector2d(secondDot.x - firstDot.x, secondDot.y - firstDot.y)
-
-        return sqrt(vector.x.pow(2) + vector.y.pow(2))
+    
+    private fun setClearButtonListener(){
+        binding.imageClearButton.setOnClickListener { 
+            binding.imageToPaint.clearPoints()
+            binding.imageNextButton.isEnabled = false
+        }
     }
 
     override fun onDestroyView() {

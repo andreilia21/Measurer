@@ -10,6 +10,7 @@ import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.dewerro.measurer.ar.ArFragmentPrepareHelper
+import com.dewerro.measurer.ar.Constants
 import com.dewerro.measurer.ar.RenderableUtils.createRenderable
 import com.dewerro.measurer.databinding.FragmentArBinding
 import com.google.android.filament.Filament
@@ -29,9 +30,6 @@ import java.util.*
 class ARFragment : Fragment(), Scene.OnUpdateListener {
 
     private var _binding: FragmentArBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     private val MIN_OPENGL_VERSION = 3.0
@@ -44,8 +42,6 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
     private val placedAnchors = ArrayList<Anchor>()
     private val placedAnchorNodes = ArrayList<AnchorNode>()
     private val fromGroundNodes = ArrayList<List<Node>>()
-
-    private lateinit var initCM: String
 
     private lateinit var clearButton: Button
 
@@ -67,8 +63,6 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
         }
 
         arFragment = binding.sceneformFragment.getFragment()
-
-        initCM = resources.getString(R.string.initCM)
 
         Toast.makeText(context,
             resources.getString(R.string.find_plane),
@@ -155,7 +149,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
 
         createRenderable(context!!, R.layout.point_text_layout){
             pointTextView = it.view as TextView
-            pointTextView.text = placedAnchors.size.toString()
+            pointTextView.text = (placedAnchors.size + 1).toString()
             placeAnchor(hitResult, it)
         }
 
@@ -175,6 +169,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        arFragment?.arSceneView?.session?.close()
         _binding = null
     }
 }

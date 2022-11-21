@@ -18,7 +18,7 @@
         app:titleCentered="true"
         app:titleTextColor="?colorOnPrimary" />
 
-    <com.google.android.material.imageview.ShapeableImageView
+    <com.dewerro.measurer.view.MeasurerImageView
         android:id="@+id/image_to_paint"
         android:layout_width="match_parent"
         android:layout_height="500dp"

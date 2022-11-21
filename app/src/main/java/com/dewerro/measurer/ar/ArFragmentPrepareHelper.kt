@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.view.Gravity
 import android.widget.ImageView
 import android.widget.LinearLayout
-import com.dewerro.measurer.Constants
 import com.dewerro.measurer.R
 import com.dewerro.measurer.ar.RenderableUtils.createRenderable
 import com.dewerro.measurer.ar.RenderableUtils.onCreationError

@@ -1,6 +1,6 @@
 package com.dewerro.measurer
 
-import com.dewerro.measurer.models.Vector2d
+import com.dewerro.measurer.math.Vector2d
 import org.junit.Test
 import kotlin.math.pow
 import kotlin.math.sqrt
