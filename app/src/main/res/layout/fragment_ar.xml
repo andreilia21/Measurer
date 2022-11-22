@@ -22,28 +22,29 @@
         android:id="@+id/sceneform_fragment"
         android:name="com.dewerro.measurer.view.MeasurerArFragment"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ar_toolbar" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/ar_clear_button"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
         android:text="@string/clear"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/ar_next_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sceneform_fragment" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/ar_next_button"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
         android:enabled="false"
         android:text="@string/next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ar_clear_button"
-        app:layout_constraintTop_toBottomOf="@id/sceneform_fragment" />
+        app:layout_constraintStart_toEndOf="@id/ar_clear_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
