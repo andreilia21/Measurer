@@ -5,9 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.dewerro.measurer.databinding.FragmentMeasureBinding
+import com.dewerro.measurer.math.round
+import com.dewerro.measurer.view.listeners.FloatInputListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -20,6 +23,10 @@ class MeasureFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private var shapeWidth = 0.0f
+    private var shapeHeight = 0.0f
+    private var shapeArea = 0.0f
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,14 +38,42 @@ class MeasureFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        arguments?.apply {
+            shapeWidth = getFloat(BundleFactory.WIDTH_BUNDLE_KEY)
+            shapeHeight = getFloat(BundleFactory.HEIGHT_BUNDLE_KEY)
+        }
+
         binding.sendButton.setOnClickListener {
             val material = binding.materialEditText.text.toString()
-            val width = binding.widthEditText.text.toString().toFloat()
-            val height = binding.heightEditText.text.toString().toFloat()
-            val area = binding.areaEditText.text.toString().toFloat()
 
-            createOrder(material, width, height, area)
+            createOrder(material, shapeWidth, shapeHeight, shapeArea)
         }
+
+        applyInputListenerTo(binding.widthEditText){ shapeWidth = it }
+        applyInputListenerTo(binding.heightEditText){ shapeHeight = it }
+
+        updateMeasurements()
+    }
+
+    private fun applyInputListenerTo(editText: EditText, onInput: (Float) -> Unit){
+        FloatInputListener().apply {
+            preprocessor {
+                it.replace("m", "")
+            }
+            onInput {
+                onInput(it)
+                updateMeasurements()
+            }
+            applyListenerTo(editText)
+        }
+    }
+
+    private fun updateMeasurements() {
+        shapeArea = (shapeWidth * shapeHeight).round(2)
+
+        binding.heightEditText.setText("$shapeHeight m")
+        binding.widthEditText.setText("$shapeWidth m")
+        binding.areaEditText.setText("$shapeArea m²")
     }
 
     private fun createOrder(material: String, width: Float, height: Float, area: Float) {
@@ -64,5 +99,17 @@ class MeasureFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    object BundleFactory {
+        internal const val WIDTH_BUNDLE_KEY = "width"
+        internal const val HEIGHT_BUNDLE_KEY = "height"
+
+        fun of(width: Float, height: Float): Bundle {
+            return Bundle().apply {
+                putFloat(WIDTH_BUNDLE_KEY, width)
+                putFloat(HEIGHT_BUNDLE_KEY, height)
+            }
+        }
     }
 }

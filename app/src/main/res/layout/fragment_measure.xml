@@ -43,6 +43,7 @@
                 android:id="@+id/area_edit_text"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:editable="false"
                 android:inputType="none"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

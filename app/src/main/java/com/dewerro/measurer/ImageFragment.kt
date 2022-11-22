@@ -40,6 +40,7 @@ class ImageFragment : Fragment() {
         setCoordinatesListener()
         setClearButtonListener()
         setSliderListener()
+        setNextButtonListener()
     }
 
     private fun setCoordinatesListener() {
@@ -70,6 +71,20 @@ class ImageFragment : Fragment() {
     private fun setSliderListener() {
         binding.slider.addOnChangeListener { _, value, _ ->
             binding.imageToPaint.setPointLengthRatio(value)
+        }
+    }
+
+    private fun setNextButtonListener() {
+        binding.imageNextButton.setOnClickListener {
+            val imageToPaint = binding.imageToPaint
+
+            if(imageToPaint.getPointsAmount() >= 4){
+
+                findNavController().navigate(
+                    R.id.action_ImageFragment_to_MeasureFragment,
+                    MeasureFragment.BundleFactory.of(imageToPaint.shapeWidth, imageToPaint.shapeHeight)
+                )
+            }
         }
     }
 

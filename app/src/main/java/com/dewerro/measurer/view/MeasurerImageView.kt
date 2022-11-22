@@ -10,8 +10,8 @@ import com.dewerro.measurer.math.Vector2d
 import com.dewerro.measurer.math.VectorMath.getCentroid
 import com.dewerro.measurer.math.distance
 import com.dewerro.measurer.math.middlePoint
+import com.dewerro.measurer.math.round
 import com.google.android.material.imageview.ShapeableImageView
-import kotlin.math.pow
 
 class MeasurerImageView : ShapeableImageView {
 
@@ -22,6 +22,12 @@ class MeasurerImageView : ShapeableImageView {
 
     private val points = mutableListOf<Vector2d>()
     private var pointLengthRatio = 1.0f
+
+    private var _measuredWidth: Float = 0.0f
+    val shapeWidth get() = _measuredWidth
+
+    private var _measuredHeight: Float = 0.0f
+    val shapeHeight get() = _measuredHeight
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet)
@@ -106,20 +112,20 @@ class MeasurerImageView : ShapeableImageView {
             val widthMultiplier = 1 / width.toFloat()
             val heightMultiplier = 1 / height.toFloat()
 
-            val measuredWidth = (leftBottomCorner.distance(rightBottomCorner) * pointLengthRatio * widthMultiplier).round(2)
-            val measuredHeight = (rightTopCorner.distance(rightBottomCorner) * pointLengthRatio * heightMultiplier).round(2)
-            val square = (measuredHeight * measuredWidth).round(2)
+            _measuredWidth = (leftBottomCorner.distance(rightBottomCorner) * pointLengthRatio * widthMultiplier).round(2)
+            _measuredHeight = (rightTopCorner.distance(rightBottomCorner) * pointLengthRatio * heightMultiplier).round(2)
+            val area = (shapeHeight * shapeWidth).round(2)
 
             drawPath(path, transparentPaint)
-            drawTextOnPath("$measuredWidth m", Path().apply {
+            drawTextOnPath("$shapeWidth m", Path().apply {
                 moveTo(leftBottomCorner)
                 lineTo(rightBottomCorner)
             }, 0f, 5f, textPaint)
-            drawTextOnPath("$measuredHeight m", Path().apply {
+            drawTextOnPath("$shapeHeight m", Path().apply {
                 moveTo(rightTopCorner)
                 lineTo(rightBottomCorner)
             }, 5f, 5f, textPaint)
-            drawTextOnPath("$square m²", Path().apply {
+            drawTextOnPath("$area m²", Path().apply {
                 moveTo(leftTopCorner.middlePoint(leftBottomCorner))
                 lineTo(rightTopCorner.middlePoint(rightBottomCorner))
             }, 0f, 5f, textPaint)
@@ -161,11 +167,5 @@ class MeasurerImageView : ShapeableImageView {
 
     private fun Path.lineTo(point: Vector2d){
         lineTo(point.x, point.y)
-    }
-
-    private fun Float.round(precision: Int): Float {
-        val pr = 10.0.pow(precision).toFloat()
-        val n = this * pr
-        return n.toInt().toFloat() / pr
     }
 }
