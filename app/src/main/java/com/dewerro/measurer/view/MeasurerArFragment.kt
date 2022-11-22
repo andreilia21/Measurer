@@ -9,7 +9,7 @@ class MeasurerArFragment : ArFragment() {
     override fun getSessionConfiguration(session: Session?): Config {
         val config = super.getSessionConfiguration(session)
 
-        config.planeFindingMode = Config.PlaneFindingMode.VERTICAL
+        config.planeFindingMode = Config.PlaneFindingMode.HORIZONTAL_AND_VERTICAL
 
         return config
     }

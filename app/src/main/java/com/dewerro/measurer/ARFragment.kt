@@ -86,6 +86,8 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
         initClearButton()
 
         binding.arNextButton.setOnClickListener {
+            placedPoints = 0
+
             findNavController().navigate(
                 R.id.action_ARFragment_to_MeasureFragment,
                 MeasureFragment.BundleFactory.of(shapeWidth, shapeHeight)
