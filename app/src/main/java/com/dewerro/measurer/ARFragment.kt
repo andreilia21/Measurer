@@ -10,9 +10,8 @@ import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.dewerro.measurer.ar.ArFragmentPrepareHelper
 import com.dewerro.measurer.ar.Constants
-import com.dewerro.measurer.ar.RenderableUtils.createRenderable
+import com.dewerro.measurer.ar.RenderableUtils.onCreationError
 import com.dewerro.measurer.databinding.FragmentArBinding
 import com.google.android.filament.Filament
 import com.google.ar.core.*
@@ -20,6 +19,7 @@ import com.google.ar.sceneform.AnchorNode
 import com.google.ar.sceneform.FrameTime
 import com.google.ar.sceneform.Node
 import com.google.ar.sceneform.Scene
+import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.rendering.*
 import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.TransformableNode
@@ -70,14 +70,9 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
             Toast.LENGTH_LONG
         ).show()
 
-        val prepareHelper = ArFragmentPrepareHelper()
-        prepareHelper.initRenderable(context!!)
-
         initClearButton()
 
         arFragment!!.setOnTapArPlaneListener { hitResult: HitResult, _: Plane?, _: MotionEvent? ->
-            if (!prepareHelper.isInitialized()) return@setOnTapArPlaneListener
-
             placePoint(hitResult)
         }
     }
@@ -145,11 +140,25 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
             return
         }
 
-        createRenderable(context!!, R.layout.point_text_layout){
-            pointTextView = it.view as TextView
-            pointTextView.text = (placedAnchors.size + 1).toString()
-            placeAnchor(hitResult, it)
-        }
+        MaterialFactory.makeTransparentWithColor(
+            context!!,
+            Color(android.graphics.Color.WHITE)
+        )
+            .thenAccept { material: Material? ->
+                val sphereRenderable = ShapeFactory.makeSphere(
+                    0.02f,
+                    Vector3.zero(),
+                    material
+                )
+                sphereRenderable.isShadowCaster = false
+                sphereRenderable.isShadowReceiver = false
+
+                placeAnchor(hitResult, sphereRenderable)
+            }
+            .exceptionally {
+                onCreationError(context!!, it)
+                return@exceptionally null
+            }
 
         Log.i(TAG, "Number of anchors: ${placedAnchorNodes.size}")
     }

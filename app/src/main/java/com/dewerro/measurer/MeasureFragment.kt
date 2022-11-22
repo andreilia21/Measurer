@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.dewerro.measurer.databinding.FragmentMeasureBinding
 import com.dewerro.measurer.math.round
 import com.dewerro.measurer.view.listeners.FloatInputListener
@@ -37,6 +38,8 @@ class MeasureFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.measurementToolbar.setNavigationOnClickListener { findNavController().navigateUp() }
 
         arguments?.apply {
             shapeWidth = getFloat(BundleFactory.WIDTH_BUNDLE_KEY)
