@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
+import com.dewerro.measurer.R
 import com.dewerro.measurer.math.Vector2d
 import com.dewerro.measurer.math.VectorMath.getCentroid
 import com.dewerro.measurer.math.distance
@@ -117,19 +118,29 @@ class MeasurerImageView : ShapeableImageView {
             val area = (shapeHeight * shapeWidth).round(2)
 
             drawPath(path, transparentPaint)
-            drawTextOnPath("$shapeWidth m", Path().apply {
+            drawTextOnPath(toLengthString(shapeWidth), Path().apply {
                 moveTo(leftBottomCorner)
                 lineTo(rightBottomCorner)
             }, 0f, 5f, textPaint)
-            drawTextOnPath("$shapeHeight m", Path().apply {
+            drawTextOnPath(toLengthString(shapeHeight), Path().apply {
                 moveTo(rightTopCorner)
                 lineTo(rightBottomCorner)
             }, 5f, 5f, textPaint)
-            drawTextOnPath("$area m²", Path().apply {
+            drawTextOnPath(toAreaString(area), Path().apply {
                 moveTo(leftTopCorner.middlePoint(leftBottomCorner))
                 lineTo(rightTopCorner.middlePoint(rightBottomCorner))
             }, 0f, 5f, textPaint)
         }
+    }
+
+    private fun toLengthString(length: Float): String {
+        return resources
+            .getString(R.string.length_text).replace("%length%", "$length")
+    }
+
+    private fun toAreaString(area: Float): String {
+        return resources
+            .getString(R.string.area_text).replace("%area%", "$area")
     }
 
     fun setPointLengthRatio(value: Float){
@@ -153,11 +164,7 @@ class MeasurerImageView : ShapeableImageView {
         return points.size
     }
 
-    fun getPoints(): List<Vector2d> {
-        return points.toList()
-    }
-
-    private fun Canvas.drawLine(startPoint: Vector2d, endPoint: Vector2d, paint: Paint): Unit {
+    private fun Canvas.drawLine(startPoint: Vector2d, endPoint: Vector2d, paint: Paint) {
         drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y, paint)
     }
 

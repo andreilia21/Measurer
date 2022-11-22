@@ -58,6 +58,9 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
     private var shapeHeight = 0.0f
     private var shapeWidth = 0.0f
 
+    private var cachedLengthText: String? = null
+    private var cachedShapeAreaText: String? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -92,6 +95,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
 
             if(placedPoints == Constants.maxNumMultiplePoints){
                 binding.arNextButton.isEnabled = true
+                binding.arAreaTextView.visibility = View.VISIBLE
             }
         }
 
@@ -141,6 +145,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
         shapeWidth = 0f
 
         binding.arNextButton.isEnabled = false
+        binding.arAreaTextView.visibility = View.GONE
     }
 
     private fun placeAnchor(hitResult: HitResult, renderable: Renderable){
@@ -162,7 +167,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
             placeTextBetween(listOf(anchorNode, lastPlacedPoint!!), firstPlacedPoint!!.worldRotation){
                 val distance = lastPlacedPoint?.worldPosition?.let {
                     anchorNode.worldPosition.distance(it).round(2)
-                } ?: return@placeTextBetween "0.0 m."
+                } ?: return@placeTextBetween toLengthString(0.0f)
 
                 if(currentPlacedPoints == 2){
                     shapeHeight = distance
@@ -170,7 +175,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
                     shapeWidth = distance
                 }
 
-                return@placeTextBetween "$distance m."
+                return@placeTextBetween toLengthString(distance)
             }
         }
 
@@ -244,6 +249,30 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
     @SuppressLint("SetTextI18n")
     override fun onUpdate(frameTime: FrameTime) {
         updatableElements.forEach { it.onUpdate() }
+
+        if(binding.arAreaTextView.visibility == View.VISIBLE) {
+            updateAreaTextView(shapeWidth * shapeHeight)
+        }
+    }
+
+    private fun updateAreaTextView(area: Float) {
+        binding.arAreaTextView.text = toAreaString(area)
+    }
+
+    private fun toLengthString(length: Float): String {
+        if(cachedLengthText == null) {
+            cachedLengthText = resources.getString(R.string.length_text)
+        }
+
+        return cachedLengthText!!.replace("%length%", "$length")
+    }
+
+    private fun toAreaString(area: Float): String {
+        if(cachedShapeAreaText == null) {
+            cachedShapeAreaText = resources.getString(R.string.shape_area_text)
+        }
+
+        return cachedShapeAreaText!!.replace("%area%", "$area")
     }
 
     override fun onDestroyView() {

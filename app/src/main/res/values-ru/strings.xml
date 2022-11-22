@@ -33,6 +33,10 @@
     <string name="width">Ширина</string>
     <string name="material">Материал</string>
 
+    <!-- Common -->
+    <string name="length_text">%length% м</string>
+    <string name="area_text">%area% м²</string>
+
     <!-- Measure with AR -->
     <string name="to_measurement_button">To Measurement</string>
     <string name="place_dots">Поставьте точки</string>
@@ -42,4 +46,5 @@
     <string name="find_plane">Найдите поверхность и поставьте 4 точки</string>
     <string name="distance_of_multiple_points">Длина нескольких точек</string>
     <string name="initCM">0.0</string>
+    <string name="shape_area_text">Площадь: %area% м²</string>
 </resources>

@@ -32,6 +32,10 @@
     <string name="width">Width</string>
     <string name="material">Material</string>
 
+    <!-- Common -->
+    <string name="length_text">%length% m</string>
+    <string name="area_text">%area% m²</string>
+
     <!-- Measure with AR -->
     <string name="to_measurement_button">To Measurement</string>
     <string name="place_dots">Place dots</string>
@@ -41,4 +45,5 @@
     <string name="find_plane">Find plane and select 4 points</string>
     <string name="distance_of_multiple_points">Distance of multiple points</string>
     <string name="initCM">0.0</string>
+    <string name="shape_area_text">Area: %area% m²</string>
 </resources>
