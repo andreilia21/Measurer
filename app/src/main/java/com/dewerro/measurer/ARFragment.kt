@@ -45,8 +45,6 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
 
     private var arFragment: ArFragment? = null
 
-    private lateinit var pointTextView: TextView
-
     private val placedAnchors = ArrayList<Anchor>()
     private val placedAnchorNodes = ArrayList<AnchorNode>()
 
@@ -175,11 +173,16 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
             val anchorNode = AnchorNode().apply {
                 isSmoothed = true
                 setParent(arFragment!!.arSceneView.scene)
+                renderable = viewRenderable
             }
 
             updatableElements.add(RenderableTextWrapper(anchorNode){
                 textView.text = onTextUpdate()
-                VectorMath.getCentroid(points.map { it.worldPosition })
+                val newPosition = VectorMath.getCentroid(points.map { it.worldPosition })
+
+                Log.i(TAG, "Updating textView[${textView.text}], position = $newPosition")
+
+                return@RenderableTextWrapper newPosition
             })
         }
     }
