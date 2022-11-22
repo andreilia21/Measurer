@@ -11,14 +11,21 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.dewerro.measurer.ar.Constants
+import com.dewerro.measurer.ar.RenderableTextWrapper
+import com.dewerro.measurer.ar.RenderableUtils
 import com.dewerro.measurer.ar.RenderableUtils.onCreationError
+import com.dewerro.measurer.ar.Updatable
 import com.dewerro.measurer.databinding.FragmentArBinding
+import com.dewerro.measurer.math.VectorMath
+import com.dewerro.measurer.math.distance
+import com.dewerro.measurer.math.toPose
 import com.google.android.filament.Filament
 import com.google.ar.core.*
 import com.google.ar.sceneform.AnchorNode
 import com.google.ar.sceneform.FrameTime
 import com.google.ar.sceneform.Node
 import com.google.ar.sceneform.Scene
+import com.google.ar.sceneform.math.Quaternion
 import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.rendering.*
 import com.google.ar.sceneform.ux.ArFragment
@@ -42,7 +49,11 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
 
     private val placedAnchors = ArrayList<Anchor>()
     private val placedAnchorNodes = ArrayList<AnchorNode>()
-    private val fromGroundNodes = ArrayList<List<Node>>()
+
+    private val updatableElements = ArrayList<Updatable>()
+
+    private var firstPlacedPoint: Node? = null
+    private var lastPlacedPoint: Node? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -108,7 +119,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
             anchorNode.setParent(null)
         }
         placedAnchorNodes.clear()
-        fromGroundNodes.clear()
+        updatableElements.clear()
     }
 
     private fun placeAnchor(hitResult: HitResult, renderable: Renderable){
@@ -120,6 +131,22 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
             setParent(arFragment!!.arSceneView.scene)
         }
         placedAnchorNodes.add(anchorNode)
+
+        if(firstPlacedPoint == null) {
+            firstPlacedPoint = anchorNode
+        }
+
+        if(lastPlacedPoint != null) {
+            placeTextBetween(listOf(anchorNode, lastPlacedPoint!!)){
+                val distance = lastPlacedPoint?.worldPosition?.let {
+                    anchorNode.worldPosition.distance(it)
+                }
+
+                return@placeTextBetween "$distance m."
+            }
+        }
+
+        lastPlacedPoint = anchorNode
 
         val node = TransformableNode(arFragment!!.transformationSystem)
             .apply {
@@ -133,6 +160,28 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
         arFragment!!.arSceneView.scene.addOnUpdateListener(this)
         arFragment!!.arSceneView.scene.addChild(anchorNode)
         node.select()
+    }
+
+    private fun placeTextBetween(points: List<Node>, onTextUpdate: () -> String) {
+        RenderableUtils.createRenderable(context!!, R.layout.point_text_layout) { viewRenderable ->
+            val textView = viewRenderable.view as TextView
+            val anchorPose = VectorMath.getCentroid(points.map {
+                it.worldPosition
+            }).toPose(Quaternion.identity())
+
+            val anchor = arFragment!!.arSceneView.session!!.createAnchor(anchorPose)
+            placedAnchors.add(anchor)
+
+            val anchorNode = AnchorNode().apply {
+                isSmoothed = true
+                setParent(arFragment!!.arSceneView.scene)
+            }
+
+            updatableElements.add(RenderableTextWrapper(anchorNode){
+                textView.text = onTextUpdate()
+                VectorMath.getCentroid(points.map { it.worldPosition })
+            })
+        }
     }
 
     private fun placePoint(hitResult: HitResult){
@@ -165,13 +214,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
 
     @SuppressLint("SetTextI18n")
     override fun onUpdate(frameTime: FrameTime) {
-        measureMultipleDistances()
-    }
-
-    private fun measureMultipleDistances(){
-        if (placedAnchorNodes.size > 5){
-            // TODO Добавить расстояние на экране между всеми поставленными точками, и площадь по центру
-        }
+        updatableElements.forEach { it.onUpdate() }
     }
 
     override fun onDestroyView() {
