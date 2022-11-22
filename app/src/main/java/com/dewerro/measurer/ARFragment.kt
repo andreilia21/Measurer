@@ -18,6 +18,7 @@ import com.dewerro.measurer.ar.Updatable
 import com.dewerro.measurer.databinding.FragmentArBinding
 import com.dewerro.measurer.math.VectorMath
 import com.dewerro.measurer.math.distance
+import com.dewerro.measurer.math.round
 import com.dewerro.measurer.math.toPose
 import com.google.android.filament.Filament
 import com.google.ar.core.*
@@ -25,7 +26,6 @@ import com.google.ar.sceneform.AnchorNode
 import com.google.ar.sceneform.FrameTime
 import com.google.ar.sceneform.Node
 import com.google.ar.sceneform.Scene
-import com.google.ar.sceneform.math.Quaternion
 import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.rendering.*
 import com.google.ar.sceneform.ux.ArFragment
@@ -52,6 +52,10 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
 
     private var firstPlacedPoint: Node? = null
     private var lastPlacedPoint: Node? = null
+    private var placedPoints = 0
+
+    private var shapeHeight = 0.0f
+    private var shapeWidth = 0.0f
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -81,8 +85,22 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
 
         initClearButton()
 
+        binding.arNextButton.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_ARFragment_to_MeasureFragment,
+                MeasureFragment.BundleFactory.of(shapeWidth, shapeHeight)
+            )
+        }
+
         arFragment!!.setOnTapArPlaneListener { hitResult: HitResult, _: Plane?, _: MotionEvent? ->
+            if(placedPoints >= Constants.maxNumMultiplePoints) return@setOnTapArPlaneListener
+
+            placedPoints++
             placePoint(hitResult)
+
+            if(placedPoints == Constants.maxNumMultiplePoints){
+                binding.arNextButton.isEnabled = true
+            }
         }
     }
 
@@ -118,6 +136,16 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
         }
         placedAnchorNodes.clear()
         updatableElements.clear()
+
+        firstPlacedPoint = null
+        lastPlacedPoint = null
+
+        placedPoints = 0
+
+        shapeHeight = 0f
+        shapeWidth = 0f
+
+        binding.arNextButton.isEnabled = false
     }
 
     private fun placeAnchor(hitResult: HitResult, renderable: Renderable){
@@ -134,10 +162,17 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
             firstPlacedPoint = anchorNode
         }
 
-        if(lastPlacedPoint != null) {
+        if(lastPlacedPoint != null && (placedPoints == 2 || placedPoints == 3)) {
+            val currentPlacedPoints = placedPoints
             placeTextBetween(listOf(anchorNode, lastPlacedPoint!!)){
                 val distance = lastPlacedPoint?.worldPosition?.let {
-                    anchorNode.worldPosition.distance(it)
+                    anchorNode.worldPosition.distance(it).round(2)
+                } ?: return@placeTextBetween "0.0 m."
+
+                if(currentPlacedPoints == 2){
+                    shapeHeight = distance
+                } else {
+                    shapeWidth = distance
                 }
 
                 return@placeTextBetween "$distance m."
@@ -163,9 +198,10 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
     private fun placeTextBetween(points: List<Node>, onTextUpdate: () -> String) {
         RenderableUtils.createRenderable(context!!, R.layout.point_text_layout) { viewRenderable ->
             val textView = viewRenderable.view as TextView
+
             val anchorPose = VectorMath.getCentroid(points.map {
                 it.worldPosition
-            }).toPose(Quaternion.identity())
+            }).toPose()
 
             val anchor = arFragment!!.arSceneView.session!!.createAnchor(anchorPose)
             placedAnchors.add(anchor)
@@ -175,6 +211,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
                 setParent(arFragment!!.arSceneView.scene)
                 renderable = viewRenderable
             }
+            placedAnchorNodes.add(anchorNode)
 
             updatableElements.add(RenderableTextWrapper(anchorNode){
                 textView.text = onTextUpdate()
@@ -188,10 +225,6 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
     }
 
     private fun placePoint(hitResult: HitResult){
-        if (placedAnchorNodes.size >= Constants.maxNumMultiplePoints){
-            return
-        }
-
         MaterialFactory.makeTransparentWithColor(
             context!!,
             Color(android.graphics.Color.WHITE)
@@ -211,8 +244,6 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
                 onCreationError(context!!, it)
                 return@exceptionally null
             }
-
-        Log.i(TAG, "Number of anchors: ${placedAnchorNodes.size}")
     }
 
     @SuppressLint("SetTextI18n")

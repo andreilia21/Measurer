@@ -41,6 +41,12 @@ fun Vector3.toPose(quaternion: Quaternion): Pose {
     return PoseUtils.createPose(this, quaternion)
 }
 
+fun Vector3.toPose(): Pose {
+    val rotationFromAToB = Quaternion.lookRotation(this.normalized(), Vector3.up())
+
+    return PoseUtils.createPose(this, rotationFromAToB)
+}
+
 fun Vector3.subtract(vector3: Vector3): Vector3 {
     return Vector3(x - vector3.x, y - vector3.y, z - vector3.z)
 }
