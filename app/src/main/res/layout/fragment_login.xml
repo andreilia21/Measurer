@@ -101,7 +101,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/sign_up_button"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:layout_width="150dp"
+                android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:text="@string/sign_up"
                 android:textColor="?colorPrimary" />

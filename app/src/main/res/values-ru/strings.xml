@@ -5,7 +5,7 @@
 
     <!-- Log in fragment -->
     <string name="welcome_back">Добро пожаловать!</string>
-    <string name="email_address">Адресс электронной почты</string>
+    <string name="email_address">Адрес электронной почты</string>
     <string name="password">Пароль</string>
     <string name="log_in">Вход</string>
 

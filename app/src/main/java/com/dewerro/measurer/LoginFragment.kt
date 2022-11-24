@@ -40,6 +40,10 @@ class LoginFragment : Fragment() {
 
         if (prefsEmail != null && prefsPassword != null) {
             loginUser(prefsEmail, prefsPassword)
+        } else {
+            binding.loginButton.setOnClickListener {
+                findNavController().navigate(R.id.action_LoginFragment_to_SelectImageFragment)
+            }
         }
 
         binding.signUpButton.setOnClickListener {
@@ -66,7 +70,8 @@ class LoginFragment : Fragment() {
 
                 saveData(email, password)
             } else {
-                Snackbar.make(binding.root, it.exception!!.localizedMessage!!, Snackbar.LENGTH_LONG).show()
+                Snackbar.make(binding.root, it.exception!!.localizedMessage!!, Snackbar.LENGTH_LONG)
+                    .show()
 
                 Log.e("Firebase", "Error signing in.", it.exception)
             }
