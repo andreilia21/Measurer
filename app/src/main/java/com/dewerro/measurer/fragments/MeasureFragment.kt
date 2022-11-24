@@ -1,7 +1,6 @@
-package com.dewerro.measurer
+package com.dewerro.measurer.fragments
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,11 +10,11 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.dewerro.measurer.R
 import com.dewerro.measurer.databinding.FragmentMeasureBinding
 import com.dewerro.measurer.math.round
 import com.dewerro.measurer.view.listeners.FloatInputListener
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -95,7 +94,7 @@ class MeasureFragment : Fragment() {
 
         db.collection("doors").add(order).addOnCompleteListener {
             if (it.isSuccessful) {
-                Snackbar.make(binding.root, "ada", Toast.LENGTH_LONG).show()
+                Snackbar.make(binding.root, R.string.sent, Toast.LENGTH_LONG).show()
                 Log.i("Firebase", "Order sent successfully.")
             } else {
                 Snackbar.make(binding.root, it.exception!!.localizedMessage!!, Toast.LENGTH_LONG)
