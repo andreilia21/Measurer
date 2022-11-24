@@ -1,4 +1,4 @@
-package com.dewerro.measurer
+package com.dewerro.measurer.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.dewerro.measurer.R
 import com.dewerro.measurer.databinding.FragmentSelectImageBinding
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase

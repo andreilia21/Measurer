@@ -1,4 +1,4 @@
-package com.dewerro.measurer
+package com.dewerro.measurer.fragments
 
 import android.content.Context
 import android.graphics.Rect
@@ -12,6 +12,7 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
+import com.dewerro.measurer.R
 import com.dewerro.measurer.databinding.ActivityMainBinding
 
 

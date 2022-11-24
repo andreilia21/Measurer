@@ -81,7 +81,11 @@ class MeasureFragment : Fragment() {
         binding.areaEditText.setText("$shapeArea m²")
     }
 
+    private var creatingOrder = false
+
     private fun createOrder(material: String, width: Float, height: Float, area: Float) {
+        creatingOrder = true
+
         val db = Firebase.firestore
 
         val order = hashMapOf(
@@ -100,6 +104,7 @@ class MeasureFragment : Fragment() {
                 Snackbar.make(binding.root, it.exception!!.localizedMessage!!, Toast.LENGTH_LONG)
                 Log.e("Firebase", "Error sending order.", it.exception)
             }
+            creatingOrder = false
         }
     }
 

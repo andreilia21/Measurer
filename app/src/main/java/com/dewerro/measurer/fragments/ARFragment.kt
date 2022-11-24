@@ -1,4 +1,4 @@
-package com.dewerro.measurer
+package com.dewerro.measurer.fragments
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -10,6 +10,7 @@ import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.dewerro.measurer.R
 import com.dewerro.measurer.ar.Constants
 import com.dewerro.measurer.ar.RenderableTextWrapper
 import com.dewerro.measurer.ar.RenderableUtils

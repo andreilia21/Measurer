@@ -1,4 +1,4 @@
-package com.dewerro.measurer
+package com.dewerro.measurer.fragments
 
 import android.net.Uri
 import android.os.Bundle
@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.dewerro.measurer.R
 import com.dewerro.measurer.databinding.FragmentImageBinding
 import com.dewerro.measurer.math.Vector2d
 
