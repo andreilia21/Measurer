@@ -52,13 +52,13 @@ class MeasureFragment : Fragment() {
             createOrder(material, shapeWidth, shapeHeight, shapeArea)
         }
 
-        applyInputListenerTo(binding.widthEditText){ shapeWidth = it }
-        applyInputListenerTo(binding.heightEditText){ shapeHeight = it }
+        applyInputListenerTo(binding.widthEditText) { shapeWidth = it }
+        applyInputListenerTo(binding.heightEditText) { shapeHeight = it }
 
         updateMeasurements()
     }
 
-    private fun applyInputListenerTo(editText: EditText, onInput: (Float) -> Unit){
+    private fun applyInputListenerTo(editText: EditText, onInput: (Float) -> Unit) {
         FloatInputListener().apply {
             preprocessor {
                 it.replace("m", "")
@@ -91,6 +91,7 @@ class MeasureFragment : Fragment() {
 
         db.collection("doors").add(order).addOnCompleteListener {
             if (it.isSuccessful) {
+                Snackbar.make(binding.root, "ada", Toast.LENGTH_LONG).show()
                 Log.i("Firebase", "Order sent successfully.")
             } else {
                 Snackbar.make(binding.root, it.exception!!.localizedMessage!!, Toast.LENGTH_LONG)

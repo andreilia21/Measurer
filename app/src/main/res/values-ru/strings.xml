@@ -32,6 +32,7 @@
     <string name="height">Высота</string>
     <string name="width">Ширина</string>
     <string name="material">Материал</string>
+    <string name="sent">Данные успешно отправлены</string>
 
     <!-- Common -->
     <string name="length_text">%length% м</string>

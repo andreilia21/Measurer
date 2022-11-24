@@ -31,6 +31,7 @@
     <string name="height">Height</string>
     <string name="width">Width</string>
     <string name="material">Material</string>
+    <string name="sent">Data sent successfully</string>
 
     <!-- Common -->
     <string name="length_text">%length% m</string>
