@@ -7,4 +7,5 @@
     android:background="@drawable/point_text_drawable"
     android:gravity="center"
     android:padding="6dp"
-    android:textSize="10sp" />
+    android:text="bebr"
+    android:textSize="6sp" />

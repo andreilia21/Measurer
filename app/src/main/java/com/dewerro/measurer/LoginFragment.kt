@@ -35,13 +35,11 @@ class LoginFragment : Fragment() {
 
         val preferences = activity?.getSharedPreferences("user_data", Context.MODE_PRIVATE)
 
-        val prefsEmail = preferences?.getString("email", "")
-        val prefsPassword = preferences?.getString("password", "")
+        val prefsEmail = preferences?.getString("email", null)
+        val prefsPassword = preferences?.getString("password", null)
 
-        if (prefsEmail.isNullOrEmpty() && prefsPassword.isNullOrEmpty()) {
-            findNavController().navigate(R.id.action_LoginFragment_to_SelectImageFragment)
-        } else {
-            loginUser(prefsEmail!!, prefsPassword!!)
+        if (prefsEmail != null && prefsPassword != null) {
+            loginUser(prefsEmail, prefsPassword)
         }
 
         binding.signUpButton.setOnClickListener {

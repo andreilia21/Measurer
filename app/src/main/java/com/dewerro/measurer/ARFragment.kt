@@ -26,6 +26,7 @@ import com.google.ar.sceneform.AnchorNode
 import com.google.ar.sceneform.FrameTime
 import com.google.ar.sceneform.Node
 import com.google.ar.sceneform.Scene
+import com.google.ar.sceneform.math.Quaternion
 import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.rendering.*
 import com.google.ar.sceneform.ux.ArFragment
@@ -69,22 +70,10 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (!checkIsSupportedDeviceOrFinish(activity!!)) {
-            Toast.makeText(activity!!.applicationContext, "Device not supported", Toast.LENGTH_LONG)
-                .show()
-        }
+        checkIsSupportedDeviceOrFinish(activity!!)
 
         binding.arToolbar.setNavigationOnClickListener { findNavController().navigateUp() }
-
-        arFragment = binding.sceneformFragment.getFragment()
-
-        Toast.makeText(context,
-            resources.getString(R.string.find_plane),
-            Toast.LENGTH_LONG
-        ).show()
-
-        initClearButton()
-
+        binding.arClearButton.setOnClickListener { clearAllAnchors() }
         binding.arNextButton.setOnClickListener {
             placedPoints = 0
 
@@ -94,6 +83,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
             )
         }
 
+        arFragment = binding.sceneformFragment.getFragment()
         arFragment!!.setOnTapArPlaneListener { hitResult: HitResult, _: Plane?, _: MotionEvent? ->
             if(placedPoints >= Constants.maxNumMultiplePoints) return@setOnTapArPlaneListener
 
@@ -104,6 +94,11 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
                 binding.arNextButton.isEnabled = true
             }
         }
+
+        Toast.makeText(context,
+            resources.getString(R.string.find_plane),
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     private fun checkIsSupportedDeviceOrFinish(activity: Activity): Boolean {
@@ -124,11 +119,10 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
         return true
     }
 
-    private fun initClearButton(){
-        binding.arClearButton.setOnClickListener { clearAllAnchors() }
-    }
-
     private fun clearAllAnchors(){
+        synchronized(updatableElements) {
+            updatableElements.clear()
+        }
         placedAnchors.clear()
         for (anchorNode in placedAnchorNodes){
             arFragment!!.arSceneView.scene.removeChild(anchorNode)
@@ -137,7 +131,6 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
             anchorNode.setParent(null)
         }
         placedAnchorNodes.clear()
-        updatableElements.clear()
 
         firstPlacedPoint = null
         lastPlacedPoint = null
@@ -166,7 +159,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
 
         if(lastPlacedPoint != null && (placedPoints == 2 || placedPoints == 3)) {
             val currentPlacedPoints = placedPoints
-            placeTextBetween(listOf(anchorNode, lastPlacedPoint!!)){
+            placeTextBetween(listOf(anchorNode, lastPlacedPoint!!), firstPlacedPoint!!.worldRotation){
                 val distance = lastPlacedPoint?.worldPosition?.let {
                     anchorNode.worldPosition.distance(it).round(2)
                 } ?: return@placeTextBetween "0.0 m."
@@ -197,13 +190,13 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
         node.select()
     }
 
-    private fun placeTextBetween(points: List<Node>, onTextUpdate: () -> String) {
+    private fun placeTextBetween(points: List<Node>, quaternion: Quaternion, onTextUpdate: () -> String) {
         RenderableUtils.createRenderable(context!!, R.layout.point_text_layout) { viewRenderable ->
             val textView = viewRenderable.view as TextView
 
             val anchorPose = VectorMath.getCentroid(points.map {
                 it.worldPosition
-            }).toPose()
+            }).toPose(quaternion)
 
             val anchor = arFragment!!.arSceneView.session!!.createAnchor(anchorPose)
             placedAnchors.add(anchor)

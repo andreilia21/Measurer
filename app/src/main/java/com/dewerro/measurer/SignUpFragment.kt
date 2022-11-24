@@ -22,7 +22,6 @@ class SignUpFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,14 +34,14 @@ class SignUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.loginButton.setOnClickListener {
-            createUser()
+            val email = binding.emailTextField.text.toString()
+            val password = binding.passwordTextField.text.toString()
+
+            createUser(email, password)
         }
     }
 
-    private fun createUser() {
-        val email = binding.emailTextField.text.toString()
-        val password = binding.passwordTextField.text.toString()
-
+    private fun createUser(email: String, password: String) {
         val task = try {
             Firebase.auth.createUserWithEmailAndPassword(email, password)
         } catch (e: IllegalArgumentException) {
