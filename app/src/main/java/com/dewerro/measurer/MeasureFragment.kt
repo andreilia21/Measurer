@@ -1,5 +1,7 @@
 package com.dewerro.measurer
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +15,7 @@ import com.dewerro.measurer.databinding.FragmentMeasureBinding
 import com.dewerro.measurer.math.round
 import com.dewerro.measurer.view.listeners.FloatInputListener
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -83,6 +86,7 @@ class MeasureFragment : Fragment() {
         val db = Firebase.firestore
 
         val order = hashMapOf(
+            "email" to getEmail(),
             "material" to material,
             "width" to width,
             "height" to height,
@@ -98,6 +102,11 @@ class MeasureFragment : Fragment() {
                 Log.e("Firebase", "Error sending order.", it.exception)
             }
         }
+    }
+
+    private fun getEmail(): String? {
+        val preferences = activity?.getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        return preferences?.getString("email", null)
     }
 
     override fun onDestroyView() {
