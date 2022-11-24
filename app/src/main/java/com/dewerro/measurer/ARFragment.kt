@@ -131,7 +131,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
         for (anchorNode in placedAnchorNodes){
             arFragment!!.arSceneView.scene.removeChild(anchorNode)
             anchorNode.isEnabled = false
-            anchorNode.anchor!!.detach()
+            anchorNode.anchor?.detach()
             anchorNode.setParent(null)
         }
         placedAnchorNodes.clear()
