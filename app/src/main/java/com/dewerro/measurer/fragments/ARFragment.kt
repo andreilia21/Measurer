@@ -106,6 +106,10 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
         ).show()
     }
 
+    /**
+     * Проверяет поддерживает ли устройство дополненную реальность
+     * @param activity активити для получения информации об устройстве
+     */
     private fun checkIsSupportedDeviceOrFinish(activity: Activity): Boolean {
         val openGlVersionString =
             (Objects.requireNonNull(activity
@@ -124,6 +128,9 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
         return true
     }
 
+    /**
+     * Очищает все точки поставленные на плоскость
+     */
     private fun clearAllAnchors(){
         synchronized(updatableElements) {
             updatableElements.clear()
@@ -149,6 +156,10 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
         binding.arAreaTextView.visibility = View.GONE
     }
 
+    /**
+     * Устанавливает точку на плоскость
+     * @param hitResult результат нажатия на экран
+     */
     private fun placeAnchor(hitResult: HitResult, renderable: Renderable){
         val anchor = hitResult.createAnchor()
         placedAnchors.add(anchor)

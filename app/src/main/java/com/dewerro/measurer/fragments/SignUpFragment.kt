@@ -42,8 +42,14 @@ class SignUpFragment : Fragment() {
         }
     }
 
+    // переменная, чтобы нельзя было несколько раз создать пользователя
     private var isCreatingUser = false
 
+    /**
+     * Создание пользователя по электронной почте и паролю
+     * @param email электронная почта
+     * @param password пароль
+     */
     private fun createUser(email: String, password: String) {
         isCreatingUser = true
 
@@ -56,7 +62,7 @@ class SignUpFragment : Fragment() {
 
             return
         }
-
+        // если пользователь успешно создан, то переходим в SelectImageFragment
         task.addOnCompleteListener {
             if (it.isSuccessful) {
                 findNavController().navigate(R.id.action_SignupFragment_to_SelectImageFragment)
@@ -73,6 +79,11 @@ class SignUpFragment : Fragment() {
         }
     }
 
+    /**
+     * Сохраняет почту и пароль в локальное хранилище
+     * @param email электронная почта
+     * @param password пароль
+     */
     private fun saveData(email: String, password: String) {
         val preferences = activity?.getSharedPreferences("user_data", Context.MODE_PRIVATE)
         preferences?.edit {

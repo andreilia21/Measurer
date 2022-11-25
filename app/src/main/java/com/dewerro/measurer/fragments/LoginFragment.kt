@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.dewerro.measurer.K
 import com.dewerro.measurer.R
 import com.dewerro.measurer.databinding.FragmentLoginBinding
 import com.google.android.material.snackbar.Snackbar
@@ -34,11 +35,13 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val preferences = activity?.getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        val preferences =
+            activity?.getSharedPreferences(K.SharedPreferences.FIREBASE_USER_DATA, Context.MODE_PRIVATE)
+        // получаем email и пароль, сохраненный
+        val prefsEmail = preferences?.getString(K.SharedPreferences.FIREBASE_EMAIL, null)
+        val prefsPassword = preferences?.getString(K.SharedPreferences.FIREBASE_PASSWORD, null)
 
-        val prefsEmail = preferences?.getString("email", null)
-        val prefsPassword = preferences?.getString("password", null)
-
+        // если email и пароль существует, то сразу запускаем LoginFragment, иначе вешаем listener на кнопку
         if (prefsEmail != null && prefsPassword != null) {
             loginUser(prefsEmail, prefsPassword)
         } else {
@@ -51,15 +54,21 @@ class LoginFragment : Fragment() {
             findNavController().navigate(R.id.action_LoginFragment_to_SignupFragment)
         }
     }
-
+    // переменная, чтобы нельзя было несколько раз залогиниться
     private var isSigningIn = false
 
+    /**
+     * Логинит пользователя по электронной почте и паролю
+     * @param email электронная почта пользователя
+     * @param password пароль, который ввел пользователь
+    **/
     private fun loginUser(email: String, password: String) {
         isSigningIn = true
 
         val task = try {
             Firebase.auth.signInWithEmailAndPassword(email, password)
         } catch (e: IllegalArgumentException) {
+            // если поля пустые, то срабатывает этот блок
             Snackbar.make(binding.root, R.string.empty_fields, Snackbar.LENGTH_LONG).show()
             e.printStackTrace()
             isSigningIn = false
@@ -68,6 +77,7 @@ class LoginFragment : Fragment() {
         }
 
         task.addOnCompleteListener {
+            // если успешно залогинились, отправляемся в SelectImageFragment
             if (it.isSuccessful) {
                 findNavController().navigate(R.id.action_LoginFragment_to_SelectImageFragment)
 
@@ -84,6 +94,11 @@ class LoginFragment : Fragment() {
         }
     }
 
+    /**
+     * Сохраняет почту и пароль в локальное хранилище
+     * @param email электронная почта
+     * @param password пароль
+     */
     private fun saveData(email: String, password: String) {
         val preferences = activity?.getSharedPreferences("user_data", Context.MODE_PRIVATE)
         preferences?.edit {

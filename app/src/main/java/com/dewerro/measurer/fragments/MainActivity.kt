@@ -35,7 +35,9 @@ class MainActivity : AppCompatActivity() {
                 || super.onSupportNavigateUp()
     }
 
-    // Используется для снятия фокуса с View, когда было сделано нажатие вне этого View
+    /**
+     * Используется для снятия фокуса с View, когда было сделано нажатие вне этого View
+     */
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {
             val v: View? = currentFocus

@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.dewerro.measurer.K
 import com.dewerro.measurer.R
 import com.dewerro.measurer.databinding.FragmentSelectImageBinding
 import com.google.firebase.auth.ktx.auth
@@ -36,9 +37,10 @@ class SelectImageFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
+        // Регистрируем контракт для получения изображения из файлов
         galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
             val bundle = Bundle()
-            bundle.putString("imageURI", it.toString())
+            bundle.putString(K.Bundle.GALLERY_IMAGE_URI, it.toString())
 
             findNavController().navigate(R.id.action_SelectImageFragment_to_ImageFragment, bundle)
         }
@@ -58,10 +60,10 @@ class SelectImageFragment : Fragment() {
         binding.logoutButton.setOnClickListener {
             Firebase.auth.signOut()
 
-            val preferences = activity?.getSharedPreferences("user_data", Context.MODE_PRIVATE)
+            val preferences = activity?.getSharedPreferences(K.SharedPreferences.FIREBASE_USER_DATA, Context.MODE_PRIVATE)
             preferences?.edit {
-                remove("email")
-                remove("password")
+                remove(K.SharedPreferences.FIREBASE_EMAIL)
+                remove(K.SharedPreferences.FIREBASE_PASSWORD)
             }
 
             findNavController().navigate(R.id.action_SelectImageFragment_to_LoginFragment)

@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.dewerro.measurer.K
 import com.dewerro.measurer.R
 import com.dewerro.measurer.databinding.FragmentMeasureBinding
 import com.dewerro.measurer.math.round
@@ -60,6 +61,11 @@ class MeasureFragment : Fragment() {
         updateMeasurements()
     }
 
+    /**
+     * Устанавливает слушатель на текстовое поле
+     * @param editText Текстовое поле
+     * @param onInput Лямбда-функция, которая выполняется, когда пользователь что-то ввел
+     */
     private fun applyInputListenerTo(editText: EditText, onInput: (Float) -> Unit) {
         FloatInputListener().apply {
             preprocessor {
@@ -73,6 +79,9 @@ class MeasureFragment : Fragment() {
         }
     }
 
+    /**
+     * Установливает значения текстовым полям
+     */
     private fun updateMeasurements() {
         shapeArea = (shapeWidth * shapeHeight).round(2)
 
@@ -83,6 +92,13 @@ class MeasureFragment : Fragment() {
 
     private var creatingOrder = false
 
+    /**
+     * Формирует и отправляет заказ в Firebase
+     * @param material Материал изделия
+     * @param width Ширина изделия
+     * @param height Высота изделия
+     * @param area Площадь изделия
+     */
     private fun createOrder(material: String, width: Float, height: Float, area: Float) {
         creatingOrder = true
 
@@ -96,7 +112,7 @@ class MeasureFragment : Fragment() {
             "area" to area
         )
 
-        db.collection("doors").add(order).addOnCompleteListener {
+        db.collection(K.Firebase.DOORS_COLLECTION_NAME).add(order).addOnCompleteListener {
             if (it.isSuccessful) {
                 Snackbar.make(binding.root, R.string.sent, Toast.LENGTH_LONG).show()
                 Log.i("Firebase", "Order sent successfully.")
@@ -108,9 +124,12 @@ class MeasureFragment : Fragment() {
         }
     }
 
+    /**
+     * Получение адреса электронной почты из локального хранилища
+     */
     private fun getEmail(): String? {
-        val preferences = activity?.getSharedPreferences("user_data", Context.MODE_PRIVATE)
-        return preferences?.getString("email", null)
+        val preferences = activity?.getSharedPreferences(K.SharedPreferences.FIREBASE_EMAIL, Context.MODE_PRIVATE)
+        return preferences?.getString(K.SharedPreferences.FIREBASE_EMAIL, null)
     }
 
     override fun onDestroyView() {

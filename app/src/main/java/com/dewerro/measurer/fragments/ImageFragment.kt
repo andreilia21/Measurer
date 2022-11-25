@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.dewerro.measurer.K
 import com.dewerro.measurer.R
 import com.dewerro.measurer.databinding.FragmentImageBinding
 import com.dewerro.measurer.math.Vector2d
@@ -34,7 +35,7 @@ class ImageFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        arguments?.getString("imageURI")?.let {
+        arguments?.getString(K.Bundle.GALLERY_IMAGE_URI)?.let {
             binding.imageToPaint.setImageURI(Uri.parse(it))
         }
 
@@ -44,6 +45,9 @@ class ImageFragment : Fragment() {
         setNextButtonListener()
     }
 
+    /**
+     * Устанавливает слушатель на клик по координатам
+     */
     private fun setCoordinatesListener() {
         val imageToPaint = binding.imageToPaint
 
@@ -54,36 +58,48 @@ class ImageFragment : Fragment() {
                 imageToPaint.addPoint(point)
             }
 
-            if(imageToPaint.getPointsAmount() == 4 && !binding.imageNextButton.isEnabled){
+            if (imageToPaint.getPointsAmount() == 4 && !binding.imageNextButton.isEnabled) {
                 binding.imageNextButton.isEnabled = true
             }
 
             view.performClick()
         }
     }
-    
+
+    /**
+     * Устанавливает слушатель на imageClearButton
+     */
     private fun setClearButtonListener() {
-        binding.imageClearButton.setOnClickListener { 
+        binding.imageClearButton.setOnClickListener {
             binding.imageToPaint.clearPoints()
             binding.imageNextButton.isEnabled = false
         }
     }
 
+    /**
+     * Устанавливает слушатель на slider
+     */
     private fun setSliderListener() {
         binding.slider.addOnChangeListener { _, value, _ ->
             binding.imageToPaint.setPointLengthRatio(value)
         }
     }
 
+    /**
+     * Устанавливает слушатель на imageNextButton
+     */
     private fun setNextButtonListener() {
         binding.imageNextButton.setOnClickListener {
             val imageToPaint = binding.imageToPaint
 
-            if(imageToPaint.getPointsAmount() >= 4){
+            if (imageToPaint.getPointsAmount() >= 4) {
 
                 findNavController().navigate(
                     R.id.action_ImageFragment_to_MeasureFragment,
-                    MeasureFragment.BundleFactory.of(imageToPaint.shapeWidth, imageToPaint.shapeHeight)
+                    MeasureFragment.BundleFactory.of(
+                        imageToPaint.shapeWidth,
+                        imageToPaint.shapeHeight
+                    )
                 )
             }
         }
