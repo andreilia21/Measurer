@@ -33,6 +33,13 @@
     <string name="material">Material</string>
     <string name="sent">Data sent successfully</string>
 
+    <!-- Loading fragment -->
+    <string name="loading_text">Sending your order to the database…</string>
+    <string name="loading_error">Something went wrong!</string>
+    <string name="loading_error_details">Details:\n%details%</string>
+    <string name="loading_success">The order has been successfully sent!</string>
+    <string name="loading_order_code">Order code: %code%</string>
+
     <!-- Common -->
     <string name="length_text">%length% m</string>
     <string name="area_text">%area% m²</string>

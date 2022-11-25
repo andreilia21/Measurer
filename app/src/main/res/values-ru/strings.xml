@@ -34,6 +34,13 @@
     <string name="material">Материал</string>
     <string name="sent">Данные успешно отправлены</string>
 
+    <!-- Loading fragment -->
+    <string name="loading_text">Отправляем заказ в базу…</string>
+    <string name="loading_error">Что-то пошло не так!</string>
+    <string name="loading_error_details">Детали:\n%details%</string>
+    <string name="loading_success">Заказ успешно отправлен!</string>
+    <string name="loading_order_code">Код заказа: %code%</string>
+
     <!-- Common -->
     <string name="length_text">%length% м</string>
     <string name="area_text">%area% м²</string>
