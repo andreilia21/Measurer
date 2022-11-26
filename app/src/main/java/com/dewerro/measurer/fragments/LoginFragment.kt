@@ -75,7 +75,7 @@ class LoginFragment : Fragment() {
     **/
     private fun loginUser(email: String, password: String) {
         val task = try {
-            Auth.register(email, password)
+            Auth.login(email, password)
         } catch (e: IllegalArgumentException) {
             Snackbar.make(binding.root, R.string.empty_fields, Snackbar.LENGTH_LONG).show()
             return
