@@ -13,6 +13,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import com.dewerro.measurer.R
+import com.dewerro.measurer.auth.Auth
+import com.dewerro.measurer.auth.impl.FirebaseAuthService
 import com.dewerro.measurer.databinding.ActivityMainBinding
 
 
@@ -22,6 +24,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Auth.setAuthService(FirebaseAuthService())
+
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
 

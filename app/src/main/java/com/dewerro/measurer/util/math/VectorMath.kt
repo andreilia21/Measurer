@@ -1,4 +1,4 @@
-package com.dewerro.measurer.math
+package com.dewerro.measurer.util.math
 
 import com.google.ar.core.Pose
 import com.google.ar.sceneform.math.Quaternion

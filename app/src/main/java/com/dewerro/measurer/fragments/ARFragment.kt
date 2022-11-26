@@ -21,10 +21,10 @@ import com.dewerro.measurer.ar.RenderableUtils
 import com.dewerro.measurer.ar.RenderableUtils.onCreationError
 import com.dewerro.measurer.ar.Updatable
 import com.dewerro.measurer.databinding.FragmentArBinding
-import com.dewerro.measurer.math.VectorMath
-import com.dewerro.measurer.math.distance
-import com.dewerro.measurer.math.round
-import com.dewerro.measurer.math.toPose
+import com.dewerro.measurer.util.math.VectorMath
+import com.dewerro.measurer.util.math.distance
+import com.dewerro.measurer.util.math.round
+import com.dewerro.measurer.util.math.toPose
 import com.google.android.filament.Filament
 import com.google.ar.core.Anchor
 import com.google.ar.core.HitResult
@@ -148,7 +148,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
     }
 
     /**
-     * Включает кнопку "Далее"
+     * Включает кнопку "Далее".
      * Позволяет пользователю нажимать на кнопку.
      */
     private fun enableNextButton() {
@@ -156,7 +156,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
     }
 
     /**
-     * Выключает кнопку "Далее"
+     * Выключает кнопку "Далее".
      * В выключенном состоянии при нажатии на кнопку ничего происходить не будет.
      */
     private fun disableNextButton() {
@@ -273,6 +273,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
 
         placedPoints = 0
     }
+
     /**
      * Устанавливает точку на плоскость с моделью белой сферы
      * @param hitResult необходим для получения позиции для установки точки
@@ -424,7 +425,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
     }
 
     /**
-     * Данный метод вызывается на каждом кадре
+     * Данный метод вызывается на каждом кадре.
      * Необходим для обновления текста дистанций между точками и информации о площади
      */
     override fun onUpdate(frameTime: FrameTime) {

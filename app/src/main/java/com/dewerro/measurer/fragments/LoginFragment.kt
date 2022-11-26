@@ -1,20 +1,15 @@
 package com.dewerro.measurer.fragments
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.dewerro.measurer.K
 import com.dewerro.measurer.R
+import com.dewerro.measurer.auth.Auth
 import com.dewerro.measurer.databinding.FragmentLoginBinding
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 
 class LoginFragment : Fragment() {
 
@@ -35,27 +30,43 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val preferences =
-            activity?.getSharedPreferences(K.SharedPreferences.FIREBASE_USER_DATA, Context.MODE_PRIVATE)
-        // получаем email и пароль, сохраненный
-        val prefsEmail = preferences?.getString(K.SharedPreferences.FIREBASE_EMAIL, null)
-        val prefsPassword = preferences?.getString(K.SharedPreferences.FIREBASE_PASSWORD, null)
+        tryToPerformAutomaticLogin()
 
-        // если email и пароль существует, то сразу запускаем LoginFragment, иначе вешаем listener на кнопку
+        initLoginButton()
+        initSignUpButton()
+    }
+
+    private fun tryToPerformAutomaticLogin() {
+        val preferences = Auth.getUserDataContainer(activity!!)
+
+        // получаем сохранненый email и пароль
+        val prefsEmail = Auth.getSavedEmail(preferences)
+        val prefsPassword = Auth.getSavedPassword(preferences)
+
+        // если email и пароль существует, то пробуем авторизовать пользователя
         if (prefsEmail != null && prefsPassword != null) {
             loginUser(prefsEmail, prefsPassword)
-        } else {
-            binding.loginButton.setOnClickListener {
-                findNavController().navigate(R.id.action_LoginFragment_to_SelectImageFragment)
-            }
-        }
-
-        binding.signUpButton.setOnClickListener {
-            findNavController().navigate(R.id.action_LoginFragment_to_SignupFragment)
         }
     }
-    // переменная, чтобы нельзя было несколько раз залогиниться
-    private var isSigningIn = false
+
+    private fun initLoginButton() {
+        binding.loginButton.setOnClickListener { onLogin() }
+    }
+
+    private fun onLogin() {
+        val email = binding.emailTextField.text.toString()
+        val password = binding.passwordTextField.text.toString()
+
+        loginUser(email, password)
+    }
+
+    private fun initSignUpButton() {
+        binding.signUpButton.setOnClickListener { onSignUp() }
+    }
+
+    private fun onSignUp() {
+        findNavController().navigate(R.id.action_LoginFragment_to_SignupFragment)
+    }
 
     /**
      * Логинит пользователя по электронной почте и паролю
@@ -63,47 +74,24 @@ class LoginFragment : Fragment() {
      * @param password пароль, который ввел пользователь
     **/
     private fun loginUser(email: String, password: String) {
-        isSigningIn = true
-
         val task = try {
-            Firebase.auth.signInWithEmailAndPassword(email, password)
+            Auth.register(email, password)
         } catch (e: IllegalArgumentException) {
-            // если поля пустые, то срабатывает этот блок
             Snackbar.make(binding.root, R.string.empty_fields, Snackbar.LENGTH_LONG).show()
-            e.printStackTrace()
-            isSigningIn = false
-
+            return
+        } catch (e: IllegalStateException) {
+            Snackbar.make(binding.root, R.string.already_logging_in, Snackbar.LENGTH_LONG).show()
             return
         }
 
-        task.addOnCompleteListener {
-            // если успешно залогинились, отправляемся в SelectImageFragment
-            if (it.isSuccessful) {
+        task.apply {
+            onComplete {
+                Auth.saveCredentials(activity!!, email, password)
                 findNavController().navigate(R.id.action_LoginFragment_to_SelectImageFragment)
-
-                Log.i("Firebase", "Sign in successfully.")
-
-                saveData(email, password)
-            } else {
-                Snackbar.make(binding.root, it.exception!!.localizedMessage!!, Snackbar.LENGTH_LONG)
-                    .show()
-
-                Log.e("Firebase", "Error signing in.", it.exception)
             }
-            isSigningIn = false
-        }
-    }
-
-    /**
-     * Сохраняет почту и пароль в локальное хранилище
-     * @param email электронная почта
-     * @param password пароль
-     */
-    private fun saveData(email: String, password: String) {
-        val preferences = activity?.getSharedPreferences("user_data", Context.MODE_PRIVATE)
-        preferences?.edit {
-            putString("email", email)
-            putString("password", password)
+            onError {
+                Snackbar.make(binding.root, it?.localizedMessage!!, Snackbar.LENGTH_LONG).show()
+            }
         }
     }
 

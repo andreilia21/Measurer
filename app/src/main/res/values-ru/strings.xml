@@ -8,11 +8,13 @@
     <string name="email_address">Адрес электронной почты</string>
     <string name="password">Пароль</string>
     <string name="log_in">Вход</string>
+    <string name="already_logging_in">Идёт авторизация! Подождите пожалуйста.</string>
 
     <!-- Sign up fragment -->
     <string name="let_s_create_new_account">Давайте создадим новый аккаунт!</string>
     <string name="create">Создать!</string>
     <string name="sign_up">Зарегестрироваться</string>
+    <string name="already_registering">Идёт регистрация! Подождите пожалуйста.</string>
 
     <!-- SelectImage -->
     <string name="select_the_method_of_measurement">Выберите способ рассчета.</string>
@@ -40,6 +42,8 @@
     <string name="loading_error_details">Детали:\n%details%</string>
     <string name="loading_success">Заказ успешно отправлен!</string>
     <string name="loading_order_code">Код заказа: %code%</string>
+    <string name="loading_retry">Повторить</string>
+    <string name="loading_next">Продолжить</string>
 
     <!-- Common -->
     <string name="length_text">%length% м</string>

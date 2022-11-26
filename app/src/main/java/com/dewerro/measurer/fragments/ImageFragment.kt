@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.dewerro.measurer.K
 import com.dewerro.measurer.R
 import com.dewerro.measurer.databinding.FragmentImageBinding
-import com.dewerro.measurer.math.Vector2d
+import com.dewerro.measurer.util.math.Vector2d
 
 class ImageFragment : Fragment() {
 
@@ -51,6 +51,7 @@ class ImageFragment : Fragment() {
     private fun setCoordinatesListener() {
         val imageToPaint = binding.imageToPaint
 
+        imageToPaint.setPointLengthRatio(binding.slider.value)
         imageToPaint.setOnTouchListener { view, motionEvent ->
             if (imageToPaint.getPointsAmount() < 4) {
                 val point = Vector2d(motionEvent.x, motionEvent.y)

@@ -7,11 +7,11 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
 import com.dewerro.measurer.R
-import com.dewerro.measurer.math.Vector2d
-import com.dewerro.measurer.math.VectorMath.getCentroid
-import com.dewerro.measurer.math.distance
-import com.dewerro.measurer.math.middlePoint
-import com.dewerro.measurer.math.round
+import com.dewerro.measurer.util.math.Vector2d
+import com.dewerro.measurer.util.math.VectorMath.getCentroid
+import com.dewerro.measurer.util.math.distance
+import com.dewerro.measurer.util.math.middlePoint
+import com.dewerro.measurer.util.math.round
 import com.google.android.material.imageview.ShapeableImageView
 
 class MeasurerImageView : ShapeableImageView {

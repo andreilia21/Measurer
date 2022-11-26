@@ -7,11 +7,13 @@
     <string name="email_address">Email address</string>
     <string name="password">Password</string>
     <string name="log_in">Log in</string>
+    <string name="already_logging_in">Already logging in! Please wait</string>
 
     <!-- Sign up fragment -->
     <string name="let_s_create_new_account">Let\'s create new account!</string>
     <string name="create">Create!</string>
     <string name="sign_up">Sign up</string>
+    <string name="already_registering">Already registering! Please wait</string>
 
     <!-- SelectImage -->
     <string name="select_the_method_of_measurement">Select the method of measurement.</string>
@@ -39,6 +41,8 @@
     <string name="loading_error_details">Details:\n%details%</string>
     <string name="loading_success">The order has been successfully sent!</string>
     <string name="loading_order_code">Order code: %code%</string>
+    <string name="loading_retry">Retry</string>
+    <string name="loading_next">Continue</string>
 
     <!-- Common -->
     <string name="length_text">%length% m</string>
