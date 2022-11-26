@@ -7,14 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.dewerro.measurer.K
 import com.dewerro.measurer.R
+import com.dewerro.measurer.auth.Auth
 import com.dewerro.measurer.databinding.FragmentSelectImageBinding
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 
 class SelectImageFragment : Fragment() {
 
@@ -49,22 +47,27 @@ class SelectImageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initMeasureWithArButton()
+        initMeasureWithImageButton()
+        initLogoutButton()
+    }
+
+    private fun initMeasureWithArButton() {
         binding.measureWithArButton.setOnClickListener {
             findNavController().navigate(R.id.action_SelectImageFragment_to_ARFragment)
         }
+    }
 
+    private fun initMeasureWithImageButton() {
         binding.measureWithImage.setOnClickListener {
             galleryLauncher.launch("image/*")
         }
+    }
 
+    private fun initLogoutButton() {
         binding.logoutButton.setOnClickListener {
-            Firebase.auth.signOut()
-
-            val preferences = activity?.getSharedPreferences(K.SharedPreferences.FIREBASE_USER_DATA, Context.MODE_PRIVATE)
-            preferences?.edit {
-                remove(K.SharedPreferences.FIREBASE_EMAIL)
-                remove(K.SharedPreferences.FIREBASE_PASSWORD)
-            }
+            Auth.logout()
+            Auth.clearCredentials(activity!!)
 
             findNavController().navigate(R.id.action_SelectImageFragment_to_LoginFragment)
         }

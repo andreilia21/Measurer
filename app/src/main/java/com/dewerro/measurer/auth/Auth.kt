@@ -37,6 +37,10 @@ object Auth {
         return authService!!.register(email, password).onAny { isRegistering = false }
     }
 
+    fun logout(): PendingTask<Unit> {
+        return authService!!.logout()
+    }
+
     fun getUserDataContainer(activity: Activity): SharedPreferences {
         return activity
             .getSharedPreferences(K.SharedPreferences.FIREBASE_USER_DATA, Context.MODE_PRIVATE)
@@ -53,6 +57,14 @@ object Auth {
         preferences.edit {
             putString("email", email)
             putString("password", password)
+        }
+    }
+
+    fun clearCredentials(activity: Activity) {
+        val preferences = getUserDataContainer(activity)
+        preferences.edit {
+            remove(K.SharedPreferences.FIREBASE_EMAIL)
+            remove(K.SharedPreferences.FIREBASE_PASSWORD)
         }
     }
 
