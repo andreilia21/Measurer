@@ -17,6 +17,12 @@ object K {
         const val ORDER_ERROR_DETAILS = "error_details"
     }
 
+    object Fragments {
+        object OrderProcessingFragment {
+            const val PROCESS_WAIT_MILLIS = 2500L
+        }
+    }
+
     object Firebase {
         object Orders {
             object Collections {

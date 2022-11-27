@@ -32,6 +32,11 @@ class PendingTask<T> {
     }
 
     fun onAny(action: (Unit) -> Unit): PendingTask<T> {
+        if(completed) {
+            action(Unit)
+            return this
+        }
+
         onAnyActions.addAction(action)
         return this
     }

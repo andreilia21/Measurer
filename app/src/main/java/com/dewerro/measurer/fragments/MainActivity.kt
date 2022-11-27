@@ -16,6 +16,8 @@ import com.dewerro.measurer.R
 import com.dewerro.measurer.auth.Auth
 import com.dewerro.measurer.auth.impl.FirebaseAuthService
 import com.dewerro.measurer.databinding.ActivityMainBinding
+import com.dewerro.measurer.order.Orders
+import com.dewerro.measurer.order.impl.FirebaseOrderService
 
 
 class MainActivity : AppCompatActivity() {
@@ -26,6 +28,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         // Устанавливаем реализацию сервиса авторизации
         Auth.setAuthService(FirebaseAuthService())
+
+        // Устанавливаем реализацию сервиса отправки заказов
+        Orders.setOrderService(FirebaseOrderService())
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)

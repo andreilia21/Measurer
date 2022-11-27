@@ -7,6 +7,11 @@ import com.dewerro.measurer.fragments.data.OrderData
 
 open class OrderFragment : Fragment() {
 
+    /**
+     * Получает заказ через аргументы фрагмента.
+     * @return OrderData - данные заказа
+     * @see OrderData
+     */
     protected fun getOrderDataFromArguments(): OrderData? {
         return arguments?.getParcelable(K.Bundle.ORDER_DATA_KEY)
     }
