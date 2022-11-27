@@ -41,7 +41,7 @@
     <fragment
         android:id="@+id/ARFragment"
         android:name="com.dewerro.measurer.fragments.ARFragment"
-        tools:layout="@layout/fragment_ar" >
+        tools:layout="@layout/fragment_ar">
         <action
             android:id="@+id/action_ARFragment_to_MeasureFragment"
             app:destination="@id/MeasureFragment" />
@@ -49,7 +49,7 @@
     <fragment
         android:id="@+id/ImageFragment"
         android:name="com.dewerro.measurer.fragments.ImageFragment"
-        tools:layout="@layout/fragment_image" >
+        tools:layout="@layout/fragment_image">
         <action
             android:id="@+id/action_ImageFragment_to_MeasureFragment"
             app:destination="@id/MeasureFragment" />
@@ -57,7 +57,7 @@
     <fragment
         android:id="@+id/MeasureFragment"
         android:name="com.dewerro.measurer.fragments.MeasureFragment"
-        tools:layout="@layout/fragment_measure" >
+        tools:layout="@layout/fragment_measure">
         <action
             android:id="@+id/action_MeasureFragment_to_OrderProcessingFragment"
             app:destination="@id/OrderProcessingFragment" />
@@ -65,7 +65,7 @@
     <fragment
         android:id="@+id/OrderProcessingFragment"
         android:name="com.dewerro.measurer.fragments.order.OrderProcessingFragment"
-        tools:layout="@layout/fragment_order_processing" >
+        tools:layout="@layout/fragment_order_processing">
         <action
             android:id="@+id/action_OrderProcessingFragment_to_OrderSuccessFragment"
             app:destination="@id/OrderSuccessFragment" />
@@ -76,7 +76,7 @@
     <fragment
         android:id="@+id/OrderFailureFragment"
         android:name="com.dewerro.measurer.fragments.order.OrderFailureFragment"
-        tools:layout="@layout/fragment_order_failure" >
+        tools:layout="@layout/fragment_order_failure">
         <action
             android:id="@+id/action_OrderFailureFragment_to_OrderProcessingFragment"
             app:destination="@id/OrderProcessingFragment" />
@@ -87,7 +87,7 @@
     <fragment
         android:id="@+id/OrderSuccessFragment"
         android:name="com.dewerro.measurer.fragments.order.OrderSuccessFragment"
-        tools:layout="@layout/fragment_order_success" >
+        tools:layout="@layout/fragment_order_success">
         <action
             android:id="@+id/action_OrderSuccessFragment_to_SelectImageFragment"
             app:destination="@id/SelectImageFragment" />

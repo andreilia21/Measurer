@@ -14,7 +14,7 @@ object Auth {
     private var isRegistering: Boolean = false
 
     fun setAuthService(authService: AuthService) {
-        if(this.authService != null) {
+        if (this.authService != null) {
             throw IllegalStateException("Authentication cannot be initialized twice")
         }
 
@@ -22,7 +22,7 @@ object Auth {
     }
 
     fun login(email: String, password: String): PendingTask<Unit> {
-        if(isLoggingIn) throw IllegalStateException("Already logging in")
+        if (isLoggingIn) throw IllegalStateException("Already logging in")
 
         isLoggingIn = true
 
@@ -30,7 +30,7 @@ object Auth {
     }
 
     fun register(email: String, password: String): PendingTask<Unit> {
-        if(isRegistering) throw IllegalStateException("Already registering")
+        if (isRegistering) throw IllegalStateException("Already registering")
 
         isRegistering = true
 

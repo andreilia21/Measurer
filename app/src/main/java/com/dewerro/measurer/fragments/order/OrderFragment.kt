@@ -14,11 +14,13 @@ open class OrderFragment : Fragment() {
     object ArgumentWrapper {
 
         fun of(width: Float, height: Float, material: String? = null): Bundle {
-            return of(OrderData(
-                width,
-                height,
-                material
-            ))
+            return of(
+                OrderData(
+                    width,
+                    height,
+                    material
+                )
+            )
         }
 
         fun of(orderData: OrderData): Bundle {

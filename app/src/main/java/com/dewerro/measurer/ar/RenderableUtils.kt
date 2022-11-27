@@ -14,7 +14,7 @@ object RenderableUtils {
         dialog.show()
     }
 
-    fun createRenderable(context: Context, view: View, thenAccept: (ViewRenderable) -> Unit){
+    fun createRenderable(context: Context, view: View, thenAccept: (ViewRenderable) -> Unit) {
         ViewRenderable
             .builder()
             .setView(context, view)
@@ -30,7 +30,7 @@ object RenderableUtils {
             }
     }
 
-    fun createRenderable(context: Context, layoutId: Int, thenAccept: (ViewRenderable) -> Unit){
+    fun createRenderable(context: Context, layoutId: Int, thenAccept: (ViewRenderable) -> Unit) {
         ViewRenderable
             .builder()
             .setView(context, layoutId)

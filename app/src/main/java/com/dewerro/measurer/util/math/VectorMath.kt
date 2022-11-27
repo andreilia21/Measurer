@@ -19,8 +19,8 @@ fun Vector2d.subtract(vector2d: Vector2d): Vector2d {
 }
 
 fun Vector2d.normalized(): Vector2d {
-    val xNormalized = if(x != 0f) 1 / x else x
-    val yNormalized = if(y != 0f) 1 / y else y
+    val xNormalized = if (x != 0f) 1 / x else x
+    val yNormalized = if (y != 0f) 1 / y else y
 
     return Vector2d(xNormalized, yNormalized)
 }
@@ -66,7 +66,7 @@ object VectorMath {
             ySum += it.y
         }
 
-        return Vector2d(xSum/pointSize, ySum/pointSize)
+        return Vector2d(xSum / pointSize, ySum / pointSize)
     }
 
     fun getCentroid(vectors: List<Vector3>): Vector3 {
@@ -81,6 +81,6 @@ object VectorMath {
             zSum += it.z
         }
 
-        return Vector3(xSum/pointSize, ySum/pointSize, zSum/pointSize)
+        return Vector3(xSum / pointSize, ySum / pointSize, zSum / pointSize)
     }
 }

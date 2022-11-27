@@ -8,7 +8,7 @@ class RenderableTextWrapper(
     private val positionUpdater: () -> Vector3
 ) : Updatable {
 
-    override fun onUpdate(){
+    override fun onUpdate() {
         node.worldPosition = positionUpdater()
     }
 

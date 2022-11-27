@@ -37,10 +37,11 @@ abstract class InputListener<T> : TextView.OnEditorActionListener, View.OnFocusC
 
     override fun onEditorAction(view: TextView, actionId: Int, event: KeyEvent?): Boolean {
         if (actionId == EditorInfo.IME_ACTION_SEARCH ||
-                actionId == EditorInfo.IME_ACTION_DONE ||
-                event != null &&
-                        event.action == KeyEvent.ACTION_DOWN &&
-                        event.keyCode == KeyEvent.KEYCODE_ENTER) {
+            actionId == EditorInfo.IME_ACTION_DONE ||
+            event != null &&
+            event.action == KeyEvent.ACTION_DOWN &&
+            event.keyCode == KeyEvent.KEYCODE_ENTER
+        ) {
 
             if (event == null || !event.isShiftPressed()) {
                 // the user is done typing.

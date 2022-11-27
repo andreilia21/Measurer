@@ -32,7 +32,11 @@ class MeasurerImageView : ShapeableImageView {
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet)
-    constructor(context: Context, attributeSet: AttributeSet, value: Int) : super(context, attributeSet, value)
+    constructor(context: Context, attributeSet: AttributeSet, value: Int) : super(
+        context,
+        attributeSet,
+        value
+    )
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
@@ -47,7 +51,7 @@ class MeasurerImageView : ShapeableImageView {
                 drawCircle(it.x, it.y, CIRCLE_RADIUS, paint)
             }
 
-            if(getPointsAmount() != 4) return@apply
+            if (getPointsAmount() != 4) return@apply
 
             val middlePoint = getCentroid(points)
 
@@ -57,25 +61,25 @@ class MeasurerImageView : ShapeableImageView {
             var rightBottomCorner = middlePoint
 
             points.forEach {
-                if(it.x < leftTopCorner.x && it.y < leftTopCorner.y){
+                if (it.x < leftTopCorner.x && it.y < leftTopCorner.y) {
                     leftTopCorner = it
                     return@forEach
                 }
             }
             points.forEach {
-                if(it.x > rightTopCorner.x && it.y < rightTopCorner.y){
+                if (it.x > rightTopCorner.x && it.y < rightTopCorner.y) {
                     rightTopCorner = it
                     return@forEach
                 }
             }
             points.forEach {
-                if(it.x < leftBottomCorner.x && it.y > leftBottomCorner.y){
+                if (it.x < leftBottomCorner.x && it.y > leftBottomCorner.y) {
                     leftBottomCorner = it
                     return@forEach
                 }
             }
             points.forEach {
-                if(it.x > rightBottomCorner.x && it.y > rightBottomCorner.y){
+                if (it.x > rightBottomCorner.x && it.y > rightBottomCorner.y) {
                     rightBottomCorner = it
                     return@forEach
                 }
@@ -90,8 +94,16 @@ class MeasurerImageView : ShapeableImageView {
 
             paint.style = Paint.Style.STROKE
 
-            drawLine(leftTopCorner.middlePoint(rightTopCorner), leftBottomCorner.middlePoint(rightBottomCorner), paint)
-            drawLine(leftTopCorner.middlePoint(leftBottomCorner), rightTopCorner.middlePoint(rightBottomCorner), paint)
+            drawLine(
+                leftTopCorner.middlePoint(rightTopCorner),
+                leftBottomCorner.middlePoint(rightBottomCorner),
+                paint
+            )
+            drawLine(
+                leftTopCorner.middlePoint(leftBottomCorner),
+                rightTopCorner.middlePoint(rightBottomCorner),
+                paint
+            )
 
             paint.strokeWidth = 4f
             drawPath(path, paint)
@@ -113,8 +125,14 @@ class MeasurerImageView : ShapeableImageView {
             val widthMultiplier = 1 / width.toFloat()
             val heightMultiplier = 1 / height.toFloat()
 
-            _measuredWidth = (leftBottomCorner.distance(rightBottomCorner) * pointLengthRatio * widthMultiplier).round(2)
-            _measuredHeight = (rightTopCorner.distance(rightBottomCorner) * pointLengthRatio * heightMultiplier).round(2)
+            _measuredWidth =
+                (leftBottomCorner.distance(rightBottomCorner) * pointLengthRatio * widthMultiplier).round(
+                    2
+                )
+            _measuredHeight =
+                (rightTopCorner.distance(rightBottomCorner) * pointLengthRatio * heightMultiplier).round(
+                    2
+                )
             val area = (shapeHeight * shapeWidth).round(2)
 
             drawPath(path, transparentPaint)
@@ -143,9 +161,9 @@ class MeasurerImageView : ShapeableImageView {
             .getString(R.string.area_text).replace("%area%", "$area")
     }
 
-    fun setPointLengthRatio(value: Float){
+    fun setPointLengthRatio(value: Float) {
         pointLengthRatio = value
-        if(getPointsAmount() >= 4){
+        if (getPointsAmount() >= 4) {
             invalidate()
         }
     }
@@ -168,11 +186,11 @@ class MeasurerImageView : ShapeableImageView {
         drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y, paint)
     }
 
-    private fun Path.moveTo(point: Vector2d){
+    private fun Path.moveTo(point: Vector2d) {
         moveTo(point.x, point.y)
     }
 
-    private fun Path.lineTo(point: Vector2d){
+    private fun Path.lineTo(point: Vector2d) {
         lineTo(point.x, point.y)
     }
 }

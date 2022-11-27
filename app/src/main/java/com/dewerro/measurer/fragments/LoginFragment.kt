@@ -72,7 +72,7 @@ class LoginFragment : Fragment() {
      * Логинит пользователя по электронной почте и паролю
      * @param email электронная почта пользователя
      * @param password пароль, который ввел пользователь
-    **/
+     **/
     private fun loginUser(email: String, password: String) {
         val task = try {
             Auth.login(email, password)

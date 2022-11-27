@@ -12,7 +12,7 @@ class FirebaseAuthService : AuthService {
         val task = PendingTask<Unit>()
 
         Firebase.auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-            if(it.isSuccessful) {
+            if (it.isSuccessful) {
                 Log.i("Firebase", "Sign in successfully.")
                 task.setCompleted(Unit)
             } else {
@@ -28,7 +28,7 @@ class FirebaseAuthService : AuthService {
         val task = PendingTask<Unit>()
 
         Firebase.auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-            if(it.isSuccessful) {
+            if (it.isSuccessful) {
                 Log.i("Firebase", "User created successfully.")
                 task.setCompleted(Unit)
             } else {

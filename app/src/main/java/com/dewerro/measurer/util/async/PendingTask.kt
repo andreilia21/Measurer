@@ -12,8 +12,8 @@ class PendingTask<T> {
     private var success: Boolean = false
 
     fun onComplete(completeAction: (T) -> Unit): PendingTask<T> {
-        if(completed) {
-            if(success) completeAction(value!!)
+        if (completed) {
+            if (success) completeAction(value!!)
             return this
         }
 
@@ -23,8 +23,8 @@ class PendingTask<T> {
     }
 
     fun onError(errorAction: (Throwable?) -> Unit): PendingTask<T> {
-        if(completed) {
-            if(!success) errorAction(throwable)
+        if (completed) {
+            if (!success) errorAction(throwable)
             return this
         }
         onErrorActions.addAction(errorAction)

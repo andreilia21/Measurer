@@ -52,7 +52,7 @@ dependencies {
 
     // Firebase Firestore
     implementation "com.google.firebase:firebase-firestore-ktx:$firebase_firestore_version"
-    
+
     // AR Core
     implementation "com.google.ar.sceneform.ux:sceneform-ux:$ar_sceneform_ux_version"
     implementation "com.google.ar.sceneform:core:$ar_sceneform_core_version"
