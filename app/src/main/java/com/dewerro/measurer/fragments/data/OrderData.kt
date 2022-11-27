@@ -17,10 +17,10 @@ class OrderData(
 
     override fun describeContents() = 0
 
-    override fun writeToParcel(dest: Parcel?, flags: Int) {
-        dest?.writeFloat(width)
-        dest?.writeFloat(height)
-        dest?.writeString(material)
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeFloat(width)
+        dest.writeFloat(height)
+        dest.writeString(material)
     }
 
     companion object CREATOR : Parcelable.Creator<OrderData> {

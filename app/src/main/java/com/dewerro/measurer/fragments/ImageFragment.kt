@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.dewerro.measurer.K
 import com.dewerro.measurer.R
 import com.dewerro.measurer.databinding.FragmentImageBinding
+import com.dewerro.measurer.fragments.order.OrderFragment
 import com.dewerro.measurer.util.math.Vector2d
 
 class ImageFragment : Fragment() {
@@ -97,7 +98,7 @@ class ImageFragment : Fragment() {
 
                 findNavController().navigate(
                     R.id.action_ImageFragment_to_MeasureFragment,
-                    MeasureFragment.BundleFactory.of(
+                    OrderFragment.ArgumentWrapper.of(
                         imageToPaint.shapeWidth,
                         imageToPaint.shapeHeight
                     )

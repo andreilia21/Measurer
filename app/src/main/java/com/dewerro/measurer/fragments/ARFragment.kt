@@ -21,6 +21,7 @@ import com.dewerro.measurer.ar.RenderableUtils
 import com.dewerro.measurer.ar.RenderableUtils.onCreationError
 import com.dewerro.measurer.ar.Updatable
 import com.dewerro.measurer.databinding.FragmentArBinding
+import com.dewerro.measurer.fragments.order.OrderFragment
 import com.dewerro.measurer.util.math.VectorMath
 import com.dewerro.measurer.util.math.distance
 import com.dewerro.measurer.util.math.round
@@ -80,7 +81,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
 
         // Проверяем, поддерживает устройство дополненную реальность или нет
         // Если нет, закрываем фрагмент
-        checkIsSupportedDeviceOrFinish(activity!!)
+        checkIsSupportedDeviceOrFinish(requireActivity())
 
         // Инициализируем виджеты
         initToolbar()
@@ -98,15 +99,19 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
      */
     private fun checkIsSupportedDeviceOrFinish(activity: Activity): Boolean {
         val openGlVersionString =
-            (Objects.requireNonNull(activity
-                .getSystemService(Context.ACTIVITY_SERVICE)) as ActivityManager)
+            (Objects.requireNonNull(
+                activity
+                    .getSystemService(Context.ACTIVITY_SERVICE)
+            ) as ActivityManager)
                 .deviceConfigurationInfo
                 .glEsVersion
         if (openGlVersionString.toDouble() < MIN_OPENGL_VERSION) {
             Log.e(debugTag, "Sceneform requires OpenGL ES $MIN_OPENGL_VERSION later")
-            Toast.makeText(activity,
+            Toast.makeText(
+                activity,
                 "Sceneform requires OpenGL ES $MIN_OPENGL_VERSION or later",
-                Toast.LENGTH_LONG)
+                Toast.LENGTH_LONG
+            )
                 .show()
             activity.finish()
             return false
@@ -191,7 +196,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
             // Отправляем во фрагмент MeasureFragment
             findNavController().navigate(
                 R.id.action_ARFragment_to_MeasureFragment,
-                MeasureFragment.BundleFactory.of(shapeWidth, shapeHeight)
+                OrderFragment.ArgumentWrapper.of(shapeWidth, shapeHeight)
             )
         }
     }
@@ -219,7 +224,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
      */
     private fun onTap(hitResult: HitResult) {
         // Если поставлено 4 точки, отменяем обработку события.
-        if(placedPoints >= Constants.maxNumMultiplePoints) return
+        if (placedPoints >= Constants.maxNumMultiplePoints) return
 
         // Увеличиваем счётчик поставленных точек
         placedPoints++
@@ -229,7 +234,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
 
         // Если поставлено 4 точки, включаем кнопку "Далее"
         // И показываем текстовый виджет площади
-        if(placedPoints == Constants.maxNumMultiplePoints) {
+        if (placedPoints == Constants.maxNumMultiplePoints) {
             enableNextButton()
             showAreaTextView()
         }
@@ -249,7 +254,8 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
      * @param message сообщение для показа
      */
     private fun makeToast(message: String): Toast {
-        return Toast.makeText(context,
+        return Toast.makeText(
+            context,
             message,
             Toast.LENGTH_LONG
         )
@@ -262,7 +268,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
         updatableElements.clear()
         placedAnchors.clear()
 
-        for (anchorNode in placedAnchorNodes){
+        for (anchorNode in placedAnchorNodes) {
             arFragment!!.arSceneView.scene.removeChild(anchorNode)
             anchorNode.isEnabled = false
             anchorNode.anchor?.detach()
@@ -280,7 +286,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
      */
     private fun placePoint(hitResult: HitResult) {
         MaterialFactory.makeTransparentWithColor(
-            context!!,
+            requireContext(),
             Color(android.graphics.Color.WHITE)
         )
             .thenAccept { material: Material? ->
@@ -295,7 +301,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
                 placePoint(hitResult, sphereRenderable)
             }
             .exceptionally {
-                onCreationError(context!!, it)
+                onCreationError(requireContext(), it)
                 return@exceptionally null
             }
     }
@@ -319,19 +325,19 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
         placedAnchorNodes.add(placedPoint)
 
         // Если это первая точка, устанавливаем её первой поставленной
-        if(firstPlacedPoint == null) {
+        if (firstPlacedPoint == null) {
             firstPlacedPoint = placedPoint
         }
 
         // Если поставлено две точки, создаём текст длины
-        if(placedPoints == 2) {
+        if (placedPoints == 2) {
             placeTextBetweenTwoPoints(placedPoint, lastPlacedPoint) {
                 shapeHeight = it
             }
         }
 
         // Если поставлено три точки, создаём текст ширины
-        if(placedPoints == 3) {
+        if (placedPoints == 3) {
             placeTextBetweenTwoPoints(placedPoint, lastPlacedPoint) {
                 shapeWidth = it
             }
@@ -361,9 +367,13 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
      * @param secondPoint Вторая точка
      * @param onDistanceUpdate Лямбда-выражение, вызывающееся при обновлении длины между точками.
      */
-    private fun placeTextBetweenTwoPoints(firstPoint: Node?, secondPoint: Node?, onDistanceUpdate: (Float) -> Unit) {
-        if(firstPoint == null) return
-        if(secondPoint == null) return
+    private fun placeTextBetweenTwoPoints(
+        firstPoint: Node?,
+        secondPoint: Node?,
+        onDistanceUpdate: (Float) -> Unit
+    ) {
+        if (firstPoint == null) return
+        if (secondPoint == null) return
 
         val pointRotation = firstPlacedPoint!!.worldRotation
 
@@ -386,10 +396,17 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
      * @param quaternion Поворот виджета текста в пространстве
      * @param onTextUpdate Лямбда-выражение, вызывающееся при обновлении текста.
      */
-    private fun placeTextBetween(points: List<Node>, quaternion: Quaternion, onTextUpdate: () -> String) {
+    private fun placeTextBetween(
+        points: List<Node>,
+        quaternion: Quaternion,
+        onTextUpdate: () -> String
+    ) {
 
         // Создаём виджет текста
-        RenderableUtils.createRenderable(context!!, R.layout.point_text_layout) { viewRenderable ->
+        RenderableUtils.createRenderable(
+            requireContext(),
+            R.layout.point_text_layout
+        ) { viewRenderable ->
             // Данный блок кода вызывается, когда виджет был создан
 
             val textView = viewRenderable.view as TextView
@@ -433,7 +450,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
         updatableElements.forEach { it.onUpdate() }
 
         // Если виджет площади отображён, обновляем площадь.
-        if(binding.arAreaTextView.visibility == View.VISIBLE) {
+        if (binding.arAreaTextView.visibility == View.VISIBLE) {
             // Находим новую площадь и округляем до сотых
             val roundedShapeArea = (shapeWidth * shapeHeight).round(2)
 
@@ -456,7 +473,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
      * @param length Длина
      */
     private fun toLengthString(length: Float): String {
-        if(cachedLengthText == null) {
+        if (cachedLengthText == null) {
             cachedLengthText = resources.getString(R.string.length_text)
         }
 
@@ -469,7 +486,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
      * @param area Площадь
      */
     private fun toAreaString(area: Float): String {
-        if(cachedShapeAreaText == null) {
+        if (cachedShapeAreaText == null) {
             cachedShapeAreaText = resources.getString(R.string.shape_area_text)
         }
 

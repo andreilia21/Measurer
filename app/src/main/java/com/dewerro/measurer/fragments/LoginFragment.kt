@@ -86,7 +86,7 @@ class LoginFragment : Fragment() {
 
         task.apply {
             onComplete {
-                Auth.saveCredentials(activity!!, email, password)
+                Auth.saveCredentials(requireActivity(), email, password)
                 findNavController().navigate(R.id.action_LoginFragment_to_SelectImageFragment)
             }
             onError {

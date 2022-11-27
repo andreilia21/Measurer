@@ -39,7 +39,7 @@ class OrderSuccessFragment : Fragment() {
     }
 
     private fun setOrderCode() {
-        val orderCode = arguments?.getInt(ORDER_CODE, -1)
+        val orderCode = arguments?.getLong(ORDER_CODE, -1)
 
         binding.orderCode.text = resources
             .getString(R.string.loading_order_code)
