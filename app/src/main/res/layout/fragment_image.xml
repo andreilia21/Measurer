@@ -18,10 +18,18 @@
         app:titleCentered="true"
         app:titleTextColor="?colorOnPrimary" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.7"/>
+
     <com.dewerro.measurer.view.MeasurerImageView
         android:id="@+id/image_to_paint"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/image_toolbar" />
@@ -50,7 +58,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/image_clear_button"
-        android:layout_width="100dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:text="@string/clear"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -60,7 +68,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/image_next_button"
-        android:layout_width="100dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:enabled="false"
         android:text="@string/next"
