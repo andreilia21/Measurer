@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Устанавливаем реализацию сервиса авторизации
         Auth.setAuthService(FirebaseAuthService())
 
         WindowCompat.setDecorFitsSystemWindows(window, false)

@@ -13,6 +13,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.dewerro.measurer.K.Placeholders.P_AREA
+import com.dewerro.measurer.K.Placeholders.P_LENGTH
 import com.dewerro.measurer.R
 import com.dewerro.measurer.ar.Constants
 import com.dewerro.measurer.ar.Constants.MIN_OPENGL_VERSION
@@ -477,7 +479,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
             cachedLengthText = resources.getString(R.string.length_text)
         }
 
-        return cachedLengthText!!.replace("%length%", "$length")
+        return cachedLengthText!!.replace(P_LENGTH, "$length")
     }
 
     /**
@@ -490,7 +492,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
             cachedShapeAreaText = resources.getString(R.string.shape_area_text)
         }
 
-        return cachedShapeAreaText!!.replace("%area%", "$area")
+        return cachedShapeAreaText!!.replace(P_AREA, "$area")
     }
 
     override fun onDestroyView() {

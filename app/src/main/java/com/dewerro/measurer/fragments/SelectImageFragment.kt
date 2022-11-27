@@ -17,9 +17,6 @@ import com.dewerro.measurer.databinding.FragmentSelectImageBinding
 class SelectImageFragment : Fragment() {
 
     private var _binding: FragmentSelectImageBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     private lateinit var galleryLauncher: ActivityResultLauncher<String>
@@ -47,23 +44,40 @@ class SelectImageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Инициализируем виджеты фрагмента
         initMeasureWithArButton()
         initMeasureWithImageButton()
         initLogoutButton()
     }
 
+    /**
+     * Инициализируем кнопку "Измерить с помощью AR".
+     * При нажатии на кнопку открывает фрагмент дополненной реальности.
+     * @see ARFragment
+     */
     private fun initMeasureWithArButton() {
         binding.measureWithArButton.setOnClickListener {
             findNavController().navigate(R.id.action_SelectImageFragment_to_ARFragment)
         }
     }
 
+    /**
+     * Инициализируем кнопку "Измерить с помощью фотографии".
+     * При нажатии на кнопку просит пользователя выбрать фотографию.
+     * Затем открывает фрагмент измерения с помощью фотографии.
+     * @see ImageFragment
+     */
     private fun initMeasureWithImageButton() {
         binding.measureWithImage.setOnClickListener {
             galleryLauncher.launch("image/*")
         }
     }
 
+    /**
+     * Инициализируем кнопку выхода из аккаунта.
+     * Производит выход из аккаунта. После этого открывает фрагмент авторизации.
+     * @see LoginFragment
+     */
     private fun initLogoutButton() {
         binding.logoutButton.setOnClickListener {
             Auth.logout()

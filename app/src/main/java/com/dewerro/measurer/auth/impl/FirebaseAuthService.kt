@@ -11,14 +11,18 @@ class FirebaseAuthService : AuthService {
     override fun login(email: String, password: String): PendingTask<Unit> {
         val task = PendingTask<Unit>()
 
-        Firebase.auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-            if (it.isSuccessful) {
-                Log.i("Firebase", "Sign in successfully.")
-                task.setCompleted(Unit)
-            } else {
-                Log.e("Firebase", "Error signing in.", it.exception)
-                task.setFailure(it.exception)
+        try {
+            Firebase.auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Log.i("Firebase", "Sign in successfully.")
+                    task.setCompleted(Unit)
+                } else {
+                    Log.e("Firebase", "Error signing in.", it.exception)
+                    task.setFailure(it.exception)
+                }
             }
+        } catch (throwable: Throwable) {
+            task.setFailure(throwable)
         }
 
         return task
@@ -27,14 +31,18 @@ class FirebaseAuthService : AuthService {
     override fun register(email: String, password: String): PendingTask<Unit> {
         val task = PendingTask<Unit>()
 
-        Firebase.auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-            if (it.isSuccessful) {
-                Log.i("Firebase", "User created successfully.")
-                task.setCompleted(Unit)
-            } else {
-                Log.e("Firebase", "Error creating user.", it.exception)
-                task.setFailure(it.exception)
+        try {
+            Firebase.auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Log.i("Firebase", "User created successfully.")
+                    task.setCompleted(Unit)
+                } else {
+                    Log.e("Firebase", "Error creating user.", it.exception)
+                    task.setFailure(it.exception)
+                }
             }
+        } catch (throwable: Throwable) {
+            task.setFailure(throwable)
         }
 
         return task

@@ -1,6 +1,5 @@
 package com.dewerro.measurer.fragments.order
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +7,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.dewerro.measurer.K
 import com.dewerro.measurer.R
+import com.dewerro.measurer.auth.Auth
 import com.dewerro.measurer.databinding.FragmentOrderProcessingBinding
 import com.dewerro.measurer.fragments.data.OrderData
 import com.dewerro.measurer.order.impl.FirebaseOrderService
@@ -38,11 +38,7 @@ class OrderProcessingFragment : OrderFragment() {
      * Получение адреса электронной почты из локального хранилища
      */
     private fun getEmail(): String? {
-        val preferences = requireActivity().getSharedPreferences(
-            K.SharedPreferences.FIREBASE_EMAIL,
-            Context.MODE_PRIVATE
-        )
-        return preferences?.getString(K.SharedPreferences.FIREBASE_EMAIL, null)
+        return Auth.getSavedEmail(activity!!)
     }
 
     /**

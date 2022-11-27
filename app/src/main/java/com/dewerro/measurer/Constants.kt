@@ -12,7 +12,7 @@ object K {
 
     object Bundle {
         const val GALLERY_IMAGE_URI = "imageURI"
-        const val ORDER_DATA_KEY = "OrderData"
+        const val ORDER_DATA_KEY = "order_data"
         const val ORDER_CODE = "order_code"
         const val ORDER_ERROR_DETAILS = "error_details"
     }
@@ -47,5 +47,7 @@ object K {
     object Placeholders {
         const val P_ORDER_CODE = "%code%"
         const val P_ORDER_ERROR_DETAILS = "%details%"
+        const val P_AREA = "%area%"
+        const val P_LENGTH = "%length%"
     }
 }
