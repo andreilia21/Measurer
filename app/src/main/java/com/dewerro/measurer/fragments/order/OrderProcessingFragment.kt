@@ -53,7 +53,7 @@ class OrderProcessingFragment : OrderFragment() {
      * Получение адреса электронной почты из локального хранилища
      */
     private fun getEmail(): String? {
-        return Auth.getSavedEmail(activity!!)
+        return Auth.getSavedEmail(requireActivity())
     }
 
     /**
