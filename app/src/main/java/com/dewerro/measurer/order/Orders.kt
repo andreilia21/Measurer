@@ -1,5 +1,8 @@
 package com.dewerro.measurer.order
 
+/**
+ * Глобальный доступ к единой реализации OrderService
+ */
 object Orders {
 
     private var orderService: OrderService? = null

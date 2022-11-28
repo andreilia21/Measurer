@@ -7,6 +7,9 @@ import androidx.core.content.edit
 import com.dewerro.measurer.K
 import com.dewerro.measurer.util.async.PendingTask
 
+/**
+ * Глобальный доступ к единой реализации AuthService
+ */
 object Auth {
 
     private var authService: AuthService? = null

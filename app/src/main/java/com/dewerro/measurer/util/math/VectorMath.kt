@@ -6,18 +6,24 @@ import com.google.ar.sceneform.math.Vector3
 import kotlin.math.pow
 import kotlin.math.sqrt
 
+// Математические операции с векторами
+
+// Расстояние между двумя точками
 fun Vector2d.distance(vector2d: Vector2d): Float {
     return vector2d.subtract(this).length()
 }
 
+// Векторная сумма
 fun Vector2d.add(vector2d: Vector2d): Vector2d {
     return Vector2d(x + vector2d.x, y + vector2d.y)
 }
 
+// Векторная разность
 fun Vector2d.subtract(vector2d: Vector2d): Vector2d {
     return Vector2d(x - vector2d.x, y - vector2d.y)
 }
 
+// Нормализация вектора
 fun Vector2d.normalized(): Vector2d {
     val xNormalized = if (x != 0f) 1 / x else x
     val yNormalized = if (y != 0f) 1 / y else y
@@ -25,18 +31,22 @@ fun Vector2d.normalized(): Vector2d {
     return Vector2d(xNormalized, yNormalized)
 }
 
+// Длина вектора
 fun Vector2d.length(): Float {
     return sqrt(this.x.pow(2) + this.y.pow(2))
 }
 
+// Средняя точка между двумя векторами
 fun Vector2d.middlePoint(another: Vector2d): Vector2d {
     return Vector2d((another.x + x) / 2, (another.y + y) / 2)
 }
 
+// Средняя точка между двумя векторами
 fun Vector3.middlePoint(another: Vector3): Vector3 {
     return Vector3((another.x + x) / 2, (another.y + y) / 2, (another.z + z) / 2)
 }
 
+// Переводит трёхмерный вектор в позицию (нужна для фрагмента дополненной реальности)
 fun Vector3.toPose(quaternion: Quaternion): Pose {
     return PoseUtils.createPose(this, quaternion)
 }
@@ -56,6 +66,8 @@ fun Vector3.distance(vector3: Vector3): Float {
 }
 
 object VectorMath {
+
+    // Центр между несколькими двумерными векторами
     fun getCentroid(vectors: List<Vector2d>): Vector2d {
         val pointSize = vectors.size
         var xSum = 0f
@@ -69,6 +81,7 @@ object VectorMath {
         return Vector2d(xSum / pointSize, ySum / pointSize)
     }
 
+    // Центр между несколькими трёхмерными векторами
     fun getCentroid(vectors: List<Vector3>): Vector3 {
         val pointSize = vectors.size
         var xSum = 0f

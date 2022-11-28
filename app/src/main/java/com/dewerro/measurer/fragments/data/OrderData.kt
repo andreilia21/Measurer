@@ -3,6 +3,9 @@ package com.dewerro.measurer.fragments.data
 import android.os.Parcel
 import android.os.Parcelable
 
+/**
+ * Класс данных о заказе, нужен для передачи между фрагментами.
+ */
 class OrderData(
     val width: Float,
     val height: Float,

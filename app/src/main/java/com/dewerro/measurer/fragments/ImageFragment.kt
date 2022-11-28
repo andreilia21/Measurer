@@ -17,9 +17,6 @@ import com.dewerro.measurer.view.MeasurerImageView
 class ImageFragment : Fragment() {
 
     private var _binding: FragmentImageBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(

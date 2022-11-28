@@ -2,6 +2,10 @@ package com.dewerro.measurer.order
 
 import com.dewerro.measurer.util.async.PendingTask
 
+/**
+ * Интерфейс, который позволяет взаимодействовать с удалённой базой данных.
+ * Абстрагирует логику взаимодействия с внешними библиотеками, делая архитектуру в разы гибче.
+ */
 interface OrderService {
 
     fun createOrder(
