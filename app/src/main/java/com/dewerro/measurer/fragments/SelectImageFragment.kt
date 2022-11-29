@@ -2,6 +2,7 @@ package com.dewerro.measurer.fragments
 
 import android.app.AlertDialog
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -35,10 +36,7 @@ class SelectImageFragment : Fragment() {
 
         // Регистрируем контракт для получения изображения из файлов
         galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
-            val bundle = Bundle()
-            bundle.putString(K.Bundle.GALLERY_IMAGE_URI, it.toString())
-
-            createDialog(R.id.action_SelectImageFragment_to_ImageFragment, bundle)
+            createDialog(R.id.action_SelectImageFragment_to_ImageFragment, it)
         }
     }
 
@@ -92,8 +90,9 @@ class SelectImageFragment : Fragment() {
      * Создает диалог выбора объекта для измерения.
      * После чего переходит на фрагмент, переданный в navigationResId
      * @param navigationResId действие перехода во фрагмент
+     * @param imageURI путь к изображению, может быть null
      */
-    private fun createDialog(navigationResId: Int) {
+    private fun createDialog(navigationResId: Int, imageURI: Uri? = null) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle(R.string.select_object_to_measure)
 
@@ -103,33 +102,15 @@ class SelectImageFragment : Fragment() {
         }
 
         builder.setPositiveButton(R.string.measure) { _, _ ->
-            val bundle = Bundle()
-            bundle.putInt(K.Bundle.MEASUREMENT_OBJECT_CHOICE, checkedItem)
-            findNavController().navigate(navigationResId, bundle)
-        }
-        builder.setNegativeButton(R.string.cancel, null)
+            val bundle = Bundle().apply {
+                when (checkedItem) {
+                    0 -> putString(K.Bundle.MEASUREMENT_OBJECT_CHOICE, "door")
+                    1 -> putString(K.Bundle.MEASUREMENT_OBJECT_CHOICE, "window")
+                }
 
-        val dialog = builder.create()
-        dialog.show()
-    }
+                imageURI?.let { putString(K.Bundle.GALLERY_IMAGE_URI, it.toString()) }
+            }
 
-    /**
-     * Создает диалог выбора объекта для измерения.
-     * После чего переходит на фрагмент, переданный в navigationResId
-     * @param navigationResId действие перехода во фрагмент
-     * @param bundle существующие аргументы навигации
-     */
-    private fun createDialog(navigationResId: Int, bundle: Bundle) {
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle(R.string.select_object_to_measure)
-
-        var checkedItem = 0
-        builder.setSingleChoiceItems(R.array.user_measure_choices, checkedItem) { _, which ->
-            checkedItem = which
-        }
-
-        builder.setPositiveButton(R.string.measure) { _, _ ->
-            bundle.putInt(K.Bundle.MEASUREMENT_OBJECT_CHOICE, checkedItem)
             findNavController().navigate(navigationResId, bundle)
         }
         builder.setNegativeButton(R.string.cancel, null)

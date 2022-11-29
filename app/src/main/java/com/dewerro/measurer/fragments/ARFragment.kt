@@ -13,6 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.dewerro.measurer.K
 import com.dewerro.measurer.K.Placeholders.P_AREA
 import com.dewerro.measurer.K.Placeholders.P_LENGTH
 import com.dewerro.measurer.R
@@ -191,6 +192,8 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
      */
     private fun initNextButton() {
         binding.arNextButton.setOnClickListener {
+            // достаем тип заказа
+            val type = arguments?.getString(K.Bundle.MEASUREMENT_OBJECT_CHOICE)
 
             // Нужно для избежания проблем с возвращением во фрагмент
             placedPoints = 0
@@ -198,7 +201,7 @@ class ARFragment : Fragment(), Scene.OnUpdateListener {
             // Отправляем во фрагмент MeasureFragment
             findNavController().navigate(
                 R.id.action_ARFragment_to_MeasureFragment,
-                OrderFragment.ArgumentWrapper.of(shapeWidth, shapeHeight)
+                OrderFragment.ArgumentWrapper.of(shapeWidth, shapeHeight, type!!)
             )
         }
     }

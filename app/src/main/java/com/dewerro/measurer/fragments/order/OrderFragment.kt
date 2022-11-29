@@ -18,12 +18,28 @@ open class OrderFragment : Fragment() {
 
     object ArgumentWrapper {
 
-        fun of(width: Float, height: Float, material: String? = null): Bundle {
+        fun of(
+            width: Float,
+            height: Float,
+            orderType: String,
+            material: String? = null,
+            frame: Float? = null,
+            glass: Float? = null,
+            windowsill: Float? = null,
+            lowTide: Float? = null,
+            fittings: Float? = null
+        ): Bundle {
             return of(
                 OrderData(
-                    width,
-                    height,
-                    material
+                    width = width,
+                    height = height,
+                    orderType = orderType,
+                    material = material,
+                    frame = frame,
+                    glass = glass,
+                    windowsill = windowsill,
+                    lowTide = lowTide,
+                    fittings = fittings
                 )
             )
         }

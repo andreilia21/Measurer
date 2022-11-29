@@ -69,9 +69,9 @@ class MeasureFragment : Fragment() {
     }
 
     private fun initMeasurementCalculator() {
-        val calculator = measureCalculatorFactory.createCalculatorView(context!!, orderType)
+        val calculator = measureCalculatorFactory.createCalculatorView(requireContext(), orderType)
 
-        // binding.calculatorSocket.addView(calculator)
+        binding.calculatorSocket.addView(calculator)
 
         measureCalculator = calculator
     }
@@ -102,13 +102,13 @@ class MeasureFragment : Fragment() {
      * @see OrderProcessingFragment
      */
     private fun onSendButtonPressed() {
-        val material = binding.materialEditText.text.toString()
-        val bundle = OrderFragment.ArgumentWrapper.of(shapeWidth, shapeHeight, material)
-
-        findNavController().navigate(
-            R.id.action_MeasureFragment_to_OrderProcessingFragment,
-            bundle
-        )
+//        val material = binding.materialEditText.text.toString()
+//        val bundle = OrderFragment.ArgumentWrapper.of(shapeWidth, shapeHeight, material)
+//
+//        findNavController().navigate(
+//            R.id.action_MeasureFragment_to_OrderProcessingFragment,
+//            bundle
+//        )
     }
 
     /**
@@ -116,8 +116,8 @@ class MeasureFragment : Fragment() {
      * При вводе чего-либо в поля присваивает введённое значение в соответствующую переменную.
      */
     private fun initEditTextViews() {
-        applyInputListenerTo(binding.widthEditText) { shapeWidth = it }
-        applyInputListenerTo(binding.heightEditText) { shapeHeight = it }
+//        applyInputListenerTo(binding.widthEditText) { shapeWidth = it }
+//        applyInputListenerTo(binding.heightEditText) { shapeHeight = it }
     }
 
     /**
@@ -145,11 +145,11 @@ class MeasureFragment : Fragment() {
      * Также локализирует значения по типу 0.0 -> 0.0 м
      */
     private fun updateMeasurements() {
-        shapeArea = (shapeWidth * shapeHeight).round(2)
-
-        binding.heightEditText.setText("$shapeHeight m")
-        binding.widthEditText.setText("$shapeWidth m")
-        binding.areaEditText.setText("$shapeArea m²")
+//        shapeArea = (shapeWidth * shapeHeight).round(2)
+//
+//        binding.heightEditText.setText("$shapeHeight m")
+//        binding.widthEditText.setText("$shapeWidth m")
+//        binding.areaEditText.setText("$shapeArea m²")
     }
 
     override fun onDestroyView() {

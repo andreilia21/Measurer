@@ -40,7 +40,7 @@ class LoginFragment : Fragment() {
      * если данные для входа сохранены
      */
     private fun tryToPerformAutomaticLogin() {
-        val preferences = Auth.getUserDataContainer(activity!!)
+        val preferences = Auth.getUserDataContainer(requireActivity())
 
         // получаем сохраненный email и пароль
         val prefsEmail = Auth.getSavedEmail(preferences)
@@ -116,7 +116,7 @@ class LoginFragment : Fragment() {
             // Этот блок кода выполнится, если авторизация успешна
             onComplete {
                 // Сохраняем данные пользователя в локальное хранилище
-                Auth.saveCredentials(activity!!, email, password)
+                Auth.saveCredentials(requireActivity(), email, password)
 
                 // Переходим в основной фрагмент
                 findNavController().navigate(R.id.action_LoginFragment_to_SelectImageFragment)

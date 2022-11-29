@@ -37,10 +37,6 @@
     <!-- Measure fragment -->
     <string name="measurement">Рассчеты</string>
     <string name="send">Отправить</string>
-    <string name="area">Площадь</string>
-    <string name="height">Высота</string>
-    <string name="width">Ширина</string>
-    <string name="material">Материал</string>
     <string name="sent">Данные успешно отправлены</string>
 
     <!-- Loading fragment -->
@@ -66,4 +62,15 @@
     <string name="distance_of_multiple_points">Длина нескольких точек</string>
     <string name="initCM">0.0</string>
     <string name="shape_area_text">Площадь: %area% м²</string>
+
+    <!-- Calculation View -->
+    <string name="area">Площадь</string>
+    <string name="height">Высота</string>
+    <string name="width">Ширина</string>
+    <string name="material">Материал</string>
+    <string name="frame">Рама</string>
+    <string name="glass">Стекло</string>
+    <string name="windowsill">Подоконник</string>
+    <string name="low_tide">Отлив</string>
+    <string name="fittings">Фурнитура</string>
 </resources>

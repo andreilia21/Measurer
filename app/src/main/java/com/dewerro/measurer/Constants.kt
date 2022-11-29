@@ -22,7 +22,7 @@ object K {
         const val ORDER_CODE = "order_code"
         const val ORDER_ERROR_DETAILS = "error_details"
 
-        // Прочее
+        // Измеряемый объект
         const val MEASUREMENT_OBJECT_CHOICE = "measurement_object_choice"
     }
 
@@ -54,6 +54,12 @@ object K {
                 const val WIDTH = "width"
                 const val HEIGHT = "height"
                 const val AREA = "area"
+                const val TYPE = "type"
+                const val FRAME = "frame"
+                const val GLASS = "glass"
+                const val WINDOWSILL = "windowsill"
+                const val LOW_TIDE = "low_tide"
+                const val fittings = "fittings"
             }
         }
 

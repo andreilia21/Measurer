@@ -34,12 +34,8 @@
     <string name="select_scale">Select scale</string>
 
     <!-- Measure fragment -->
-    <string name="measurement">Measurement</string>
+    <string name="measurement">Measurement</string>>
     <string name="send">Send</string>
-    <string name="area">Area</string>
-    <string name="height">Height</string>
-    <string name="width">Width</string>
-    <string name="material">Material</string>
     <string name="sent">Data sent successfully</string>
 
     <!-- Loading fragment -->
@@ -65,4 +61,15 @@
     <string name="distance_of_multiple_points">Distance of multiple points</string>
     <string name="initCM">0.0</string>
     <string name="shape_area_text">Area: %area% m²</string>
+
+    <!-- Calculation View -->
+    <string name="area">Area</string>
+    <string name="height">Height</string>
+    <string name="width">Width</string>
+    <string name="material">Material</string>
+    <string name="frame">Frame</string>
+    <string name="glass">Glass</string>
+    <string name="windowsill">Windowsill</string>
+    <string name="low_tide">Low tide</string>
+    <string name="fittings">Fittings</string>
 </resources>

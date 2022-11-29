@@ -117,6 +117,9 @@ class ImageFragment : Fragment() {
         binding.imageNextButton.setOnClickListener {
             val imageToPaint = binding.imageToPaint
 
+            // достаем тип заказа из аргументов
+            val type = arguments?.getString(K.Bundle.MEASUREMENT_OBJECT_CHOICE)
+
             // Если пользователь поставил достаточное количество точек, переходим во фрагмент
             if (imageToPaint.getPointsAmount() >= 4) {
 
@@ -125,7 +128,8 @@ class ImageFragment : Fragment() {
                     // Отправляем во фрагмент измеренные данные
                     OrderFragment.ArgumentWrapper.of(
                         imageToPaint.shapeWidth,
-                        imageToPaint.shapeHeight
+                        imageToPaint.shapeHeight,
+                        type!!
                     )
                 )
             }
