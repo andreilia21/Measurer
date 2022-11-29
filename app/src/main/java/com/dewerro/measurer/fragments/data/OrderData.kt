@@ -9,12 +9,14 @@ import android.os.Parcelable
 class OrderData(
     val width: Float,
     val height: Float,
-    val material: String? = null
+    val orderType: String,
+    val material: String? = null,
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readFloat(),
         parcel.readFloat(),
+        parcel.readString() ?: "door",
         parcel.readString()
     )
 
@@ -23,6 +25,7 @@ class OrderData(
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeFloat(width)
         dest.writeFloat(height)
+        dest.writeString(orderType)
         dest.writeString(material)
     }
 

@@ -15,15 +15,23 @@ import com.dewerro.measurer.fragments.order.OrderFragment
 import com.dewerro.measurer.fragments.order.OrderProcessingFragment
 import com.dewerro.measurer.util.math.round
 import com.dewerro.measurer.view.listeners.FloatInputListener
+import com.dewerro.measurer.view.measurement.MeasureCalculator
+import com.dewerro.measurer.view.measurement.MeasureCalculatorFactory
+import com.dewerro.measurer.view.measurement.impl.MeasureCalculatorFactoryImpl
 
 class MeasureFragment : Fragment() {
 
     private var _binding: FragmentMeasureBinding? = null
     private val binding get() = _binding!!
 
+    private val measureCalculatorFactory: MeasureCalculatorFactory = MeasureCalculatorFactoryImpl()
+
     private var shapeWidth = 0.0f
     private var shapeHeight = 0.0f
     private var shapeArea = 0.0f
+    private lateinit var orderType: String
+
+    private lateinit var measureCalculator: MeasureCalculator
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +48,7 @@ class MeasureFragment : Fragment() {
         getOrderData()
 
         // Инициализируем виджеты
+        initMeasurementCalculator()
         initMeasurementToolbar()
         initSendButton()
         initEditTextViews()
@@ -55,7 +64,16 @@ class MeasureFragment : Fragment() {
         arguments?.getParcelable<OrderData>(ORDER_DATA_KEY)?.apply {
             shapeWidth = width
             shapeHeight = height
+            this@MeasureFragment.orderType = orderType
         }
+    }
+
+    private fun initMeasurementCalculator() {
+        val calculator = measureCalculatorFactory.createCalculatorView(context!!, orderType)
+
+        // binding.calculatorSocket.addView(calculator)
+
+        measureCalculator = calculator
     }
 
     /**
