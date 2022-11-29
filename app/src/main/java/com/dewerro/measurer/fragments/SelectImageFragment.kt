@@ -81,7 +81,7 @@ class SelectImageFragment : Fragment() {
     private fun initLogoutButton() {
         binding.logoutButton.setOnClickListener {
             Auth.logout()
-            Auth.clearCredentials(activity!!)
+            Auth.clearCredentials(requireActivity())
 
             findNavController().navigate(R.id.action_SelectImageFragment_to_LoginFragment)
         }

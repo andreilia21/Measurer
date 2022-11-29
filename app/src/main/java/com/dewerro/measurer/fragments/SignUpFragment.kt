@@ -79,7 +79,7 @@ class SignUpFragment : Fragment() {
             // Этот блок кода выполнится, если регистрация успешна
             onComplete {
                 // Сохраняем данные пользователя
-                Auth.saveCredentials(activity!!, email, password)
+                Auth.saveCredentials(requireActivity(), email, password)
 
                 // Переходим в основной фрагмент
                 findNavController().navigate(R.id.action_SignupFragment_to_SelectImageFragment)
