@@ -14,10 +14,16 @@ object K {
 
     // Аргументы при переходе между фрагментами
     object Bundle {
+        // Галлерея
         const val GALLERY_IMAGE_URI = "imageURI"
+
+        // Заказы
         const val ORDER_DATA_KEY = "order_data"
         const val ORDER_CODE = "order_code"
         const val ORDER_ERROR_DETAILS = "error_details"
+
+        // Прочее
+        const val MEASUREMENT_OBJECT_CHOICE = "measurement_object_choice"
     }
 
     // Константные значения, связанные с фрагментами

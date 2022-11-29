@@ -26,6 +26,13 @@
     <string name="next">Далее</string>
     <string name="clear">Очистить</string>
     <string name="select_scale">Выбрать масштаб</string>
+    <string name="select_object_to_measure">Выберите объект для измерения</string>
+    <string name="measure">Измерить</string>
+    <string name="cancel">Отмена</string>
+    <string-array name="user_measure_choices">
+        <item>Дверной проём</item>
+        <item>Оконный проём</item>
+    </string-array>
 
     <!-- Measure fragment -->
     <string name="measurement">Рассчеты</string>

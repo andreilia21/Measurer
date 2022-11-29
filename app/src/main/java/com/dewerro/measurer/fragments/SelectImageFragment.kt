@@ -1,5 +1,6 @@
 package com.dewerro.measurer.fragments
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -37,7 +38,7 @@ class SelectImageFragment : Fragment() {
             val bundle = Bundle()
             bundle.putString(K.Bundle.GALLERY_IMAGE_URI, it.toString())
 
-            findNavController().navigate(R.id.action_SelectImageFragment_to_ImageFragment, bundle)
+            createDialog(R.id.action_SelectImageFragment_to_ImageFragment, bundle)
         }
     }
 
@@ -57,7 +58,7 @@ class SelectImageFragment : Fragment() {
      */
     private fun initMeasureWithArButton() {
         binding.measureWithArButton.setOnClickListener {
-            findNavController().navigate(R.id.action_SelectImageFragment_to_ARFragment)
+            createDialog(R.id.action_SelectImageFragment_to_ARFragment)
         }
     }
 
@@ -85,6 +86,56 @@ class SelectImageFragment : Fragment() {
 
             findNavController().navigate(R.id.action_SelectImageFragment_to_LoginFragment)
         }
+    }
+
+    /**
+     * Создает диалог выбора объекта для измерения.
+     * После чего переходит на фрагмент, переданный в navigationResId
+     * @param navigationResId действие перехода во фрагмент
+     */
+    private fun createDialog(navigationResId: Int) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(R.string.select_object_to_measure)
+
+        var checkedItem = 0
+        builder.setSingleChoiceItems(R.array.user_measure_choices, checkedItem) { _, which ->
+            checkedItem = which
+        }
+
+        builder.setPositiveButton(R.string.measure) { _, _ ->
+            val bundle = Bundle()
+            bundle.putInt(K.Bundle.MEASUREMENT_OBJECT_CHOICE, checkedItem)
+            findNavController().navigate(navigationResId, bundle)
+        }
+        builder.setNegativeButton(R.string.cancel, null)
+
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    /**
+     * Создает диалог выбора объекта для измерения.
+     * После чего переходит на фрагмент, переданный в navigationResId
+     * @param navigationResId действие перехода во фрагмент
+     * @param bundle существующие аргументы навигации
+     */
+    private fun createDialog(navigationResId: Int, bundle: Bundle) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(R.string.select_object_to_measure)
+
+        var checkedItem = 0
+        builder.setSingleChoiceItems(R.array.user_measure_choices, checkedItem) { _, which ->
+            checkedItem = which
+        }
+
+        builder.setPositiveButton(R.string.measure) { _, _ ->
+            bundle.putInt(K.Bundle.MEASUREMENT_OBJECT_CHOICE, checkedItem)
+            findNavController().navigate(navigationResId, bundle)
+        }
+        builder.setNegativeButton(R.string.cancel, null)
+
+        val dialog = builder.create()
+        dialog.show()
     }
 
     override fun onDestroyView() {

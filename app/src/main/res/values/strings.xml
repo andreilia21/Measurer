@@ -19,6 +19,13 @@
     <string name="select_the_method_of_measurement">Select the method of measurement.</string>
     <string name="augmented_reality">Augmented Reality</string>
     <string name="image_from_gallery">Image From Gallery</string>
+    <string name="select_object_to_measure">Select object to measure</string>
+    <string name="measure">Measure</string>
+    <string name="cancel">Cancel</string>
+    <string-array name="user_measure_choices">
+        <item>Doorway</item>
+        <item>Window hole</item>
+    </string-array>
 
     <!-- Measure with image -->
     <string name="place_4_dots">Place 4 dots on image!</string>
