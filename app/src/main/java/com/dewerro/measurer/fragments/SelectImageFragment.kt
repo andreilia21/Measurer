@@ -24,7 +24,7 @@ class SelectImageFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var galleryLauncher: ActivityResultLauncher<String>
-    private var dialogCallback: ((Uri?) -> Unit)? = null
+    private lateinit var dialogCallback: (Uri?) -> Unit
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +39,7 @@ class SelectImageFragment : Fragment() {
 
         // Регистрируем контракт для получения изображения из файлов
         galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
-            dialogCallback?.invoke(it)
+            dialogCallback.invoke(it)
         }
     }
 
@@ -60,7 +60,7 @@ class SelectImageFragment : Fragment() {
     private fun initMeasureWithArButton() {
         binding.measureWithArButton.setOnClickListener {
             createDialog(R.id.action_SelectImageFragment_to_ARFragment) {
-                dialogCallback?.invoke(null)
+                dialogCallback(null)
             }
         }
     }
