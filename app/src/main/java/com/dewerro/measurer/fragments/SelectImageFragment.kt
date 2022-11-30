@@ -12,6 +12,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.dewerro.measurer.K
+import com.dewerro.measurer.K.Bundle.DOOR_CHOICE
+import com.dewerro.measurer.K.Bundle.WINDOW_CHOICE
 import com.dewerro.measurer.R
 import com.dewerro.measurer.auth.Auth
 import com.dewerro.measurer.databinding.FragmentSelectImageBinding
@@ -22,6 +24,7 @@ class SelectImageFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var galleryLauncher: ActivityResultLauncher<String>
+    private var dialogCallback: ((Uri?) -> Unit)? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +39,7 @@ class SelectImageFragment : Fragment() {
 
         // Регистрируем контракт для получения изображения из файлов
         galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
-            createDialog(R.id.action_SelectImageFragment_to_ImageFragment, it)
+            dialogCallback?.invoke(it)
         }
     }
 
@@ -56,7 +59,9 @@ class SelectImageFragment : Fragment() {
      */
     private fun initMeasureWithArButton() {
         binding.measureWithArButton.setOnClickListener {
-            createDialog(R.id.action_SelectImageFragment_to_ARFragment)
+            createDialog(R.id.action_SelectImageFragment_to_ARFragment) {
+                dialogCallback?.invoke(null)
+            }
         }
     }
 
@@ -68,7 +73,9 @@ class SelectImageFragment : Fragment() {
      */
     private fun initMeasureWithImageButton() {
         binding.measureWithImage.setOnClickListener {
-            galleryLauncher.launch("image/*")
+            createDialog(R.id.action_SelectImageFragment_to_ImageFragment) {
+                galleryLauncher.launch("image/*")
+            }
         }
     }
 
@@ -90,9 +97,9 @@ class SelectImageFragment : Fragment() {
      * Создает диалог выбора объекта для измерения.
      * После чего переходит на фрагмент, переданный в navigationResId
      * @param navigationResId действие перехода во фрагмент
-     * @param imageURI путь к изображению, может быть null
+     * @param onPositive лямбда-выражение, вызываемое при нажатии кнопки "Измерить"
      */
-    private fun createDialog(navigationResId: Int, imageURI: Uri? = null) {
+    private fun createDialog(navigationResId: Int, onPositive: () -> Unit) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle(R.string.select_object_to_measure)
 
@@ -102,16 +109,19 @@ class SelectImageFragment : Fragment() {
         }
 
         builder.setPositiveButton(R.string.measure) { _, _ ->
-            val bundle = Bundle().apply {
-                when (checkedItem) {
-                    0 -> putString(K.Bundle.MEASUREMENT_OBJECT_CHOICE, "door")
-                    1 -> putString(K.Bundle.MEASUREMENT_OBJECT_CHOICE, "window")
+            dialogCallback = { imageURI ->
+                val bundle = Bundle().apply {
+                    when (checkedItem) {
+                        0 -> putString(K.Bundle.MEASUREMENT_OBJECT_CHOICE, DOOR_CHOICE)
+                        1 -> putString(K.Bundle.MEASUREMENT_OBJECT_CHOICE, WINDOW_CHOICE)
+                    }
+
+                    imageURI?.let { putString(K.Bundle.GALLERY_IMAGE_URI, it.toString()) }
                 }
 
-                imageURI?.let { putString(K.Bundle.GALLERY_IMAGE_URI, it.toString()) }
+                findNavController().navigate(navigationResId, bundle)
             }
-
-            findNavController().navigate(navigationResId, bundle)
+            onPositive()
         }
         builder.setNegativeButton(R.string.cancel, null)
 

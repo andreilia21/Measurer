@@ -1,64 +1,29 @@
 package com.dewerro.measurer.view.measurement.impl
 
 import android.content.Context
-import com.dewerro.measurer.R
+import android.view.LayoutInflater
+import com.dewerro.measurer.databinding.WindowCalculationViewBinding
 import com.dewerro.measurer.fragments.data.OrderData
 import com.dewerro.measurer.view.measurement.MeasureCalculatorView
-import com.google.android.material.textfield.TextInputEditText
 
 class WindowCalculatorView(context: Context) : MeasureCalculatorView(context) {
 
+    private val binding: WindowCalculationViewBinding
+
     init {
-        inflate(context, R.layout.window_calculation_view, this)
+        binding = WindowCalculationViewBinding.inflate(
+            LayoutInflater.from(context),
+            this,
+            true
+        )
     }
 
-    val areaEditText: TextInputEditText
-        get() {
-            return findViewById(R.id.area_edit_text)
-        }
-
-    val heightEditText: TextInputEditText
-        get() {
-            return findViewById(R.id.height_edit_text)
-        }
-
-    val widthEditText: TextInputEditText
-        get() {
-            return findViewById(R.id.width_edit_text)
-        }
-
-    val materialEditText: TextInputEditText
-        get() {
-            return findViewById(R.id.material_edit_text)
-        }
-
-    val frameEditText: TextInputEditText
-        get() {
-            return findViewById(R.id.frame_edit_text)
-        }
-
-    val glassEditText: TextInputEditText
-        get() {
-            return findViewById(R.id.glass_edit_text)
-        }
-
-    val windowsillEditText: TextInputEditText
-        get() {
-            return findViewById(R.id.windowsill_edit_text)
-        }
-
-    val lowTideEditText: TextInputEditText
-        get() {
-            return findViewById(R.id.low_tide_edit_text)
-        }
-
-    val fittingsEditText: TextInputEditText
-        get() {
-            return findViewById(R.id.fittings_edit_text)
-        }
-
-    override fun performCalculation(orderData: OrderData?): OrderData {
+    override fun performCalculation(): OrderData {
         TODO()
+    }
+
+    private fun updateMeasurements() {
+
     }
 
 }

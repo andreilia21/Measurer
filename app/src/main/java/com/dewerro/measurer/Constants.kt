@@ -24,6 +24,8 @@ object K {
 
         // Измеряемый объект
         const val MEASUREMENT_OBJECT_CHOICE = "measurement_object_choice"
+        const val DOOR_CHOICE = "door"
+        const val WINDOW_CHOICE = "window"
     }
 
     // Константные значения, связанные с фрагментами
