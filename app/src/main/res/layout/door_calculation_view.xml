@@ -55,7 +55,7 @@
                 android:id="@+id/height_edit_text"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:inputType="numberSigned|number|numberDecimal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -79,7 +79,7 @@
                 android:id="@+id/width_edit_text"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:inputType="numberSigned|number|numberDecimal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

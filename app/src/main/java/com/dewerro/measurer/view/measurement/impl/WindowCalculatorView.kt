@@ -22,7 +22,7 @@ class WindowCalculatorView(context: Context) : MeasureCalculatorView(context) {
         TODO()
     }
 
-    private fun updateMeasurements() {
+    override fun updateMeasurements() {
 
     }
 

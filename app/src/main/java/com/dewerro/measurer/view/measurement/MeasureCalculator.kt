@@ -6,4 +6,6 @@ interface MeasureCalculator {
 
     fun performCalculation(): OrderData
 
+    fun setOrderData(orderData: OrderData)
+
 }
