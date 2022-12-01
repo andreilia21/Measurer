@@ -80,8 +80,8 @@ class WindowCalculatorView(context: Context) : MeasureCalculatorView(context) {
         frameArea = (shapeArea - glassArea).round(2)
 
         binding.areaEditText.setText("$frameArea m²")
-        binding.heightEditText.setText("$windowWidth m")
-        binding.widthEditText.setText("$windowHeight m")
+        binding.heightEditText.setText("$windowHeight m")
+        binding.widthEditText.setText("$windowWidth m")
         binding.frameEditText.setText("$framePercent %")
         binding.glassEditText.setText("$glassPercent %")
         binding.windowsillEditText.setText("$windowsill m")

@@ -11,22 +11,6 @@ import com.google.firebase.ktx.Firebase
 class FirebaseOrderService : OrderService {
 
     override fun createOrder(email: String, orderData: OrderData): PendingTask<Long> {
-        return createOrder(
-            email,
-            "${orderData.material}",
-            orderData.width,
-            orderData.height,
-            orderData.width * orderData.height
-        )
-    }
-
-    private fun createOrder(
-        email: String,
-        material: String,
-        width: Float,
-        height: Float,
-        area: Float
-    ): PendingTask<Long> {
         val db = Firebase.firestore
         val task = PendingTask<Long>()
 
@@ -36,10 +20,16 @@ class FirebaseOrderService : OrderService {
             val order = hashMapOf(
                 K.Firebase.Orders.Fields.EMAIL to email,
                 K.Firebase.Orders.Fields.ORDER_CODE to orderCode,
-                K.Firebase.Orders.Fields.MATERIAL to material,
-                K.Firebase.Orders.Fields.WIDTH to width,
-                K.Firebase.Orders.Fields.HEIGHT to height,
-                K.Firebase.Orders.Fields.AREA to area
+                K.Firebase.Orders.Fields.TYPE to orderData.orderType,
+                K.Firebase.Orders.Fields.MATERIAL to "${orderData.material}",
+                K.Firebase.Orders.Fields.WIDTH to orderData.width,
+                K.Firebase.Orders.Fields.HEIGHT to orderData.height,
+                K.Firebase.Orders.Fields.AREA to orderData.width * orderData.height,
+                K.Firebase.Orders.Fields.fittings to orderData.fittings,
+                K.Firebase.Orders.Fields.WINDOWSILL to orderData.windowsill,
+                K.Firebase.Orders.Fields.LOW_TIDE to orderData.lowTide,
+                K.Firebase.Orders.Fields.GLASS to orderData.glass,
+                K.Firebase.Orders.Fields.FRAME to orderData.frame
             )
 
             db.collection(K.Firebase.Orders.Collections.ORDERS).add(order).addOnCompleteListener {

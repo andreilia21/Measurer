@@ -11,9 +11,9 @@ import com.dewerro.measurer.view.measurement.MeasureCalculatorView
 class DoorCalculatorView(context: Context) : MeasureCalculatorView(context) {
 
     private val binding: DoorCalculationViewBinding
-    private var shapeHeight: Float = 0f
-    private var shapeWidth: Float = 0f
-    private var shapeArea: Float = 0f
+    private var doorHeight: Float = 0f
+    private var doorWidth: Float = 0f
+    private var doorArea: Float = 0f
     private var material: String? = null
 
     init {
@@ -23,8 +23,8 @@ class DoorCalculatorView(context: Context) : MeasureCalculatorView(context) {
             true
         )
 
-        applyFloatInputListenerTo(binding.widthEditText) { shapeWidth = it }
-        applyFloatInputListenerTo(binding.heightEditText) { shapeHeight = it }
+        applyFloatInputListenerTo(binding.widthEditText) { doorWidth = it }
+        applyFloatInputListenerTo(binding.heightEditText) { doorHeight = it }
         applyStringInputListener(binding.materialEditText) { material = it }
     }
 
@@ -37,23 +37,23 @@ class DoorCalculatorView(context: Context) : MeasureCalculatorView(context) {
     }
 
     override fun setOrderData(orderData: OrderData) {
-        shapeWidth = orderData.width
-        shapeHeight = orderData.height
+        doorWidth = orderData.width
+        doorHeight = orderData.height
         material = orderData.material
 
         super.setOrderData(orderData)
     }
 
     override fun updateMeasurements() {
-        shapeArea = (shapeWidth * shapeHeight).round(2)
+        doorArea = (doorWidth * doorHeight).round(2)
 
-        binding.heightEditText.setText("$shapeHeight m")
-        binding.widthEditText.setText("$shapeWidth m")
-        binding.areaEditText.setText("$shapeArea m²")
+        binding.heightEditText.setText("$doorHeight m")
+        binding.widthEditText.setText("$doorWidth m")
+        binding.areaEditText.setText("$doorArea m²")
     }
 
     override fun performCalculation(): OrderData {
-        return OrderData(shapeWidth, shapeHeight, orderData.orderType, material)
+        return OrderData(doorWidth, doorHeight, orderData.orderType, material)
     }
 
 }
