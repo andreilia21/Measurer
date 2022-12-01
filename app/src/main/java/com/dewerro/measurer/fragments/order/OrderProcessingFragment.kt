@@ -61,26 +61,10 @@ class OrderProcessingFragment : OrderFragment() {
      * @param orderData данные заказа
      */
     private fun createOrder(orderData: OrderData) {
-        createOrder(
-            "${orderData.material}",
-            orderData.width,
-            orderData.height,
-            orderData.width * orderData.height
-        )
-    }
-
-    /**
-     * Формирует и отправляет заказ в Firebase
-     * @param material Материал изделия
-     * @param width Ширина изделия
-     * @param height Высота изделия
-     * @param area Площадь изделия
-     */
-    private fun createOrder(material: String, width: Float, height: Float, area: Float) {
         val service = Orders.getOrderService()
 
         getEmail()?.let { email ->
-            service.createOrder(email, material, width, height, area)
+            service.createOrder(email, orderData)
                 .onComplete { showSuccessFragment(it) }
                 .onError { if (it != null) showFailureFragment(it) }
         }

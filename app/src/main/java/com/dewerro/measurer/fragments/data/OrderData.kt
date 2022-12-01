@@ -10,12 +10,12 @@ class OrderData(
     val width: Float,
     val height: Float,
     val orderType: String,
-    var material: String? = null,
-    val frame: Float? = null,
-    val glass: Float? = null,
-    val windowsill: Float? = null,
-    val lowTide: Float? = null,
-    val fittings: Float? = null
+    val material: String? = null,
+    val frame: Float = 0.0f,
+    val glass: Float = 0.0f,
+    val windowsill: Float = 0.0f,
+    val lowTide: Float = 0.0f,
+    val fittings: String? = null
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
@@ -27,7 +27,7 @@ class OrderData(
         glass = parcel.readFloat(),
         windowsill = parcel.readFloat(),
         lowTide = parcel.readFloat(),
-        fittings = parcel.readFloat()
+        fittings = parcel.readString()
     )
 
     override fun describeContents() = 0
@@ -37,11 +37,11 @@ class OrderData(
         dest.writeFloat(height)
         dest.writeString(orderType)
         dest.writeString(material)
-        frame?.let { dest.writeFloat(it) }
-        glass?.let { dest.writeFloat(it) }
-        windowsill?.let { dest.writeFloat(it) }
-        lowTide?.let { dest.writeFloat(it) }
-        fittings?.let { dest.writeFloat(it) }
+        dest.writeFloat(frame)
+        dest.writeFloat(glass)
+        dest.writeFloat(windowsill)
+        dest.writeFloat(lowTide)
+        dest.writeString(fittings)
     }
 
     companion object CREATOR : Parcelable.Creator<OrderData> {

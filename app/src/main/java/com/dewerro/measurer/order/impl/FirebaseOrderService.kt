@@ -2,13 +2,25 @@ package com.dewerro.measurer.order.impl
 
 import android.util.Log
 import com.dewerro.measurer.K
+import com.dewerro.measurer.fragments.data.OrderData
 import com.dewerro.measurer.order.OrderService
 import com.dewerro.measurer.util.async.PendingTask
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class FirebaseOrderService : OrderService {
-    override fun createOrder(
+
+    override fun createOrder(email: String, orderData: OrderData): PendingTask<Long> {
+        return createOrder(
+            email,
+            "${orderData.material}",
+            orderData.width,
+            orderData.height,
+            orderData.width * orderData.height
+        )
+    }
+
+    private fun createOrder(
         email: String,
         material: String,
         width: Float,

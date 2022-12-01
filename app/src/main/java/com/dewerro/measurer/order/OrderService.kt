@@ -1,5 +1,6 @@
 package com.dewerro.measurer.order
 
+import com.dewerro.measurer.fragments.data.OrderData
 import com.dewerro.measurer.util.async.PendingTask
 
 /**
@@ -8,13 +9,7 @@ import com.dewerro.measurer.util.async.PendingTask
  */
 interface OrderService {
 
-    fun createOrder(
-        email: String,
-        material: String,
-        width: Float,
-        height: Float,
-        area: Float
-    ): PendingTask<Long>
+    fun createOrder(email: String, orderData: OrderData): PendingTask<Long>
 
     fun getOrderCode(): PendingTask<Long>
 

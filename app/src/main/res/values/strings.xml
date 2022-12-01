@@ -62,13 +62,19 @@
     <string name="initCM">0.0</string>
     <string name="shape_area_text">Area: %area% m²</string>
 
-    <!-- Calculation View -->
-    <string name="area">Area</string>
+
+    <!-- Calculation View Commons-->
     <string name="height">Height</string>
     <string name="width">Width</string>
     <string name="material">Material</string>
-    <string name="frame">Frame</string>
-    <string name="glass">Glass</string>
+
+    <!-- Calculation Door View -->
+    <string name="area">Area</string>
+
+    <!-- Calculation Window View -->
+    <string name="frame_area">Frame area</string>
+    <string name="frame">Frame %</string>
+    <string name="glass">Glass %</string>
     <string name="windowsill">Windowsill</string>
     <string name="low_tide">Low tide</string>
     <string name="fittings">Fittings</string>

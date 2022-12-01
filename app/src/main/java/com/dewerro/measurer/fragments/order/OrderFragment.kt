@@ -23,11 +23,11 @@ open class OrderFragment : Fragment() {
             height: Float,
             orderType: String,
             material: String? = null,
-            frame: Float? = null,
-            glass: Float? = null,
-            windowsill: Float? = null,
-            lowTide: Float? = null,
-            fittings: Float? = null
+            frame: Float = 0f,
+            glass: Float = 0f,
+            windowsill: Float = 0f,
+            lowTide: Float = 0f,
+            fittings: String? = null
         ): Bundle {
             return of(
                 OrderData(

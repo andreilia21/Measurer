@@ -43,7 +43,7 @@ abstract class InputListener<T> : TextView.OnEditorActionListener, View.OnFocusC
             event.keyCode == KeyEvent.KEYCODE_ENTER
         ) {
 
-            if (event == null || !event.isShiftPressed()) {
+            if (event == null || !event.isShiftPressed) {
                 // the user is done typing.
                 (view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
                     .hideSoftInputFromWindow(view.windowToken, 0)

@@ -23,12 +23,12 @@ class DoorCalculatorView(context: Context) : MeasureCalculatorView(context) {
             true
         )
 
-        applyInputListenerTo(binding.widthEditText) { shapeWidth = it }
-        applyInputListenerTo(binding.heightEditText) { shapeHeight = it }
+        applyFloatInputListenerTo(binding.widthEditText) { shapeWidth = it }
+        applyFloatInputListenerTo(binding.heightEditText) { shapeHeight = it }
         applyStringInputListener(binding.materialEditText) { material = it }
     }
 
-    private fun applyInputListenerTo(editText: EditText, onInput: (Float) -> Unit) {
+    private fun applyFloatInputListenerTo(editText: EditText, onInput: (Float) -> Unit) {
         applyFloatInputListener(
             editText,
             { it.replace("m", "") },
@@ -39,6 +39,7 @@ class DoorCalculatorView(context: Context) : MeasureCalculatorView(context) {
     override fun setOrderData(orderData: OrderData) {
         shapeWidth = orderData.width
         shapeHeight = orderData.height
+        material = orderData.material
 
         super.setOrderData(orderData)
     }
