@@ -51,14 +51,22 @@ class MeasureFragment : OrderFragment() {
         orderData = getOrderDataFromArguments()!!
     }
 
+    /**
+     * Инициализирует виджет подсчёта измерений.
+     * Создаёт виджет относительно выбранного пользователем типа измерения.
+     * @see MeasureCalculatorFactory
+     */
     private fun initMeasurementCalculator() {
+        // Создаём виджет
         val calculator = measureCalculatorFactory.createCalculatorView(
             requireContext(),
-            orderData.orderType
+            orderData.orderType // относительно типа заказа
         )
 
+        // Добавляем виджет во фрагмент
         binding.calculatorSocket.addView(calculator)
 
+        // Инициализируем виджет
         measureCalculator = calculator
         calculator.setOrderData(orderData)
     }

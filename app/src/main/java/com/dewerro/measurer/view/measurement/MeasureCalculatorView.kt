@@ -7,6 +7,10 @@ import com.dewerro.measurer.fragments.data.OrderData
 import com.dewerro.measurer.view.listeners.FloatInputListener
 import com.dewerro.measurer.view.listeners.StringInputListener
 
+/**
+ * Является основным классом виджета MeasureCalculator для всех подтипов.
+ * Содержит вспомогательные методы.
+ */
 abstract class MeasureCalculatorView(context: Context) : ConstraintLayout(context), MeasureCalculator {
 
     private lateinit var _orderData: OrderData
