@@ -1,8 +1,11 @@
 package com.dewerro.measurer.view.measurement.impl
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.widget.EditText
+import com.dewerro.measurer.K.Placeholders.P_HINGES
+import com.dewerro.measurer.R
 import com.dewerro.measurer.databinding.WindowCalculationViewBinding
 import com.dewerro.measurer.fragments.data.OrderData
 import com.dewerro.measurer.util.math.round
@@ -17,7 +20,7 @@ class WindowCalculatorView(context: Context) : MeasureCalculatorView(context) {
     private var frameArea = 0.0f
     private var material: String? = null
     private var framePercent = 100.0f
-    private var glassPercent = 0.0f
+    private var glassArea = 0.0f
     private var windowsill: Float = 0.0f
     private var lowTide: Float = 0.0f
     private var fittings: String? = null
@@ -31,18 +34,13 @@ class WindowCalculatorView(context: Context) : MeasureCalculatorView(context) {
 
         applyFloatInputListenerTo(binding.heightEditText) { windowHeight = it }
         applyFloatInputListenerTo(binding.widthEditText) { windowWidth = it }
-        applyStringInputListener(binding.materialEditText) { material = it }
+        applyStringInputListener(binding.windowMaterialEditText) { material = it }
         applyFloatInputListenerTo(binding.frameEditText) {
             framePercent = it.coercePercent().round(2)
-            glassPercent = (100f - framePercent).round(2)
-        }
-        applyFloatInputListenerTo(binding.glassEditText) {
-            glassPercent = it.coercePercent().round(2)
-            framePercent = (100f - glassPercent).round(2)
         }
         applyFloatInputListenerTo(binding.windowsillEditText) { windowsill = it }
         applyFloatInputListenerTo(binding.lowTideEditText) { lowTide = it }
-        applyStringInputListener(binding.fittingsEditText) { fittings = it }
+        applyStringInputListener(binding.windowFittingsEditText) { fittings = it }
     }
 
     private fun applyFloatInputListenerTo(editText: EditText, onInput: (Float) -> Unit) {
@@ -60,22 +58,42 @@ class WindowCalculatorView(context: Context) : MeasureCalculatorView(context) {
         windowWidth = orderData.width
         material = orderData.material
         framePercent = orderData.frame.coercePercent()
-        glassPercent = orderData.glass.coercePercent()
         windowsill = orderData.windowsill
         lowTide = orderData.lowTide
         fittings = orderData.fittings
 
-        if(framePercent.compareTo(0f) == 0) {
-            framePercent = 100f
-            glassPercent = 0f
+        if(framePercent.isZero()) {
+            framePercent = 5f
+        }
+
+        if(windowsill.isZero()) {
+            windowsill = (windowWidth + 0.15f).round(2)
+        }
+
+        if(lowTide.isZero()) {
+            lowTide = 0f.coerceAtLeast((windowWidth - 0.15f)).round(2)
+        }
+
+        if(fittings.isNullOrEmpty()) {
+            var hinges = 2
+
+            if (windowHeight > 1.2f)
+                hinges++
+
+            fittings = resources.getString(R.string.window_fittings)
+                .replace(P_HINGES, "$hinges")
+
+            binding.windowFittingsEditText.setText(fittings)
         }
 
         super.setOrderData(orderData)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun updateMeasurements() {
         val shapeArea = windowWidth * windowHeight
-        val glassArea = shapeArea * glassPercent.toPercent()
+        val glassPercent = (100f - framePercent).toPercent()
+        glassArea = shapeArea * glassPercent
 
         frameArea = (shapeArea - glassArea).round(2)
 
@@ -83,7 +101,7 @@ class WindowCalculatorView(context: Context) : MeasureCalculatorView(context) {
         binding.heightEditText.setText("$windowHeight m")
         binding.widthEditText.setText("$windowWidth m")
         binding.frameEditText.setText("$framePercent %")
-        binding.glassEditText.setText("$glassPercent %")
+        binding.glassEditText.setText("${glassArea.round(2)} m²")
         binding.windowsillEditText.setText("$windowsill m")
         binding.lowTideEditText.setText("$lowTide m")
     }
@@ -95,7 +113,7 @@ class WindowCalculatorView(context: Context) : MeasureCalculatorView(context) {
             orderData.orderType,
             material,
             framePercent,
-            glassPercent,
+            glassArea,
             windowsill,
             lowTide,
             fittings
@@ -108,5 +126,9 @@ class WindowCalculatorView(context: Context) : MeasureCalculatorView(context) {
 
     private fun Float.toPercent(): Float {
         return this / 100f
+    }
+
+    private fun Float.isZero(): Boolean {
+        return this.compareTo(0f) == 0
     }
 }

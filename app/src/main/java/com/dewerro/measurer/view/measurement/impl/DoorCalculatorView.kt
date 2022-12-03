@@ -1,8 +1,11 @@
 package com.dewerro.measurer.view.measurement.impl
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.widget.EditText
+import com.dewerro.measurer.K.Placeholders.P_HINGES
+import com.dewerro.measurer.R
 import com.dewerro.measurer.databinding.DoorCalculationViewBinding
 import com.dewerro.measurer.fragments.data.OrderData
 import com.dewerro.measurer.util.math.round
@@ -15,6 +18,7 @@ class DoorCalculatorView(context: Context) : MeasureCalculatorView(context) {
     private var doorWidth: Float = 0f
     private var doorArea: Float = 0f
     private var material: String? = null
+    private var fittings: String? = null
 
     init {
         binding = DoorCalculationViewBinding.inflate(
@@ -25,7 +29,8 @@ class DoorCalculatorView(context: Context) : MeasureCalculatorView(context) {
 
         applyFloatInputListenerTo(binding.widthEditText) { doorWidth = it }
         applyFloatInputListenerTo(binding.heightEditText) { doorHeight = it }
-        applyStringInputListener(binding.materialEditText) { material = it }
+        applyStringInputListener(binding.doorMaterialEditText) { material = it }
+        applyStringInputListener(binding.doorFittingsEditText) { fittings = it }
     }
 
     private fun applyFloatInputListenerTo(editText: EditText, onInput: (Float) -> Unit) {
@@ -40,10 +45,25 @@ class DoorCalculatorView(context: Context) : MeasureCalculatorView(context) {
         doorWidth = orderData.width
         doorHeight = orderData.height
         material = orderData.material
+        fittings = orderData.fittings
+
+        if(fittings.isNullOrEmpty()) {
+            var hinges = 2
+
+            if (doorHeight > 1.2f)
+                hinges++
+
+            fittings = resources.getString(R.string.window_fittings)
+                .replace(P_HINGES, "$hinges")
+
+
+            binding.doorFittingsEditText.setText(fittings)
+        }
 
         super.setOrderData(orderData)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun updateMeasurements() {
         doorArea = (doorWidth * doorHeight).round(2)
 
@@ -53,7 +73,13 @@ class DoorCalculatorView(context: Context) : MeasureCalculatorView(context) {
     }
 
     override fun performCalculation(): OrderData {
-        return OrderData(doorWidth, doorHeight, orderData.orderType, material)
+        return OrderData(
+            doorWidth,
+            doorHeight,
+            orderData.orderType,
+            material,
+            fittings = fittings
+        )
     }
 
 }

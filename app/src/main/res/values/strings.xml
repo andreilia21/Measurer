@@ -70,12 +70,14 @@
 
     <!-- Calculation Door View -->
     <string name="area">Area</string>
+    <string name="door_fittings">Lock, 2 door handles, %hinges% hinges</string>
 
     <!-- Calculation Window View -->
     <string name="frame_area">Frame area</string>
     <string name="frame">Frame %</string>
-    <string name="glass">Glass %</string>
+    <string name="glass">Glass area</string>
     <string name="windowsill">Windowsill</string>
     <string name="low_tide">Low tide</string>
     <string name="fittings">Fittings</string>
+    <string name="window_fittings">1 window handle, %hinges% hinges</string>
 </resources>

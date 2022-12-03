@@ -25,7 +25,7 @@ class FirebaseOrderService : OrderService {
                 K.Firebase.Orders.Fields.WIDTH to orderData.width,
                 K.Firebase.Orders.Fields.HEIGHT to orderData.height,
                 K.Firebase.Orders.Fields.AREA to orderData.width * orderData.height,
-                K.Firebase.Orders.Fields.fittings to orderData.fittings,
+                K.Firebase.Orders.Fields.FITTINGS to orderData.fittings,
                 K.Firebase.Orders.Fields.WINDOWSILL to orderData.windowsill,
                 K.Firebase.Orders.Fields.LOW_TIDE to orderData.lowTide,
                 K.Firebase.Orders.Fields.GLASS to orderData.glass,

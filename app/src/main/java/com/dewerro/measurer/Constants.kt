@@ -61,7 +61,7 @@ object K {
                 const val GLASS = "glass"
                 const val WINDOWSILL = "windowsill"
                 const val LOW_TIDE = "low_tide"
-                const val fittings = "fittings"
+                const val FITTINGS = "fittings"
             }
         }
 
@@ -86,5 +86,6 @@ object K {
         const val P_ORDER_ERROR_DETAILS = "%details%"
         const val P_AREA = "%area%"
         const val P_LENGTH = "%length%"
+        const val P_HINGES = "%hinges%"
     }
 }

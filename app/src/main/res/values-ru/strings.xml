@@ -70,12 +70,14 @@
 
     <!-- Calculation Door View -->
     <string name="area">Площадь</string>
+    <string name="door_fittings">Замок, 2 ручки, %hinges% петли</string>
 
     <!-- Calculation Window View -->
     <string name="frame_area">Площадь рамы</string>
     <string name="frame">Рама %</string>
-    <string name="glass">Стекло %</string>
+    <string name="glass">Площадь стекла</string>
     <string name="windowsill">Подоконник</string>
     <string name="low_tide">Отлив</string>
     <string name="fittings">Фурнитура</string>
+    <string name="window_fittings">1 ручка, %hinges% петли</string>
 </resources>
