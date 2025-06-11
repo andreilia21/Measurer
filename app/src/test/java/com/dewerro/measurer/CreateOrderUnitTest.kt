@@ -1,6 +1,6 @@
 package com.dewerro.measurer
 
-import com.dewerro.measurer.order.impl.FirebaseOrderService
+import com.dewerro.measurer.data.order.firebase.FirebaseOrderService
 import org.junit.Test
 
 class CreateOrderUnitTest {

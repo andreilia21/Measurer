@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/LoginFragment"
-        android:name="com.dewerro.measurer.fragments.LoginFragment"
+        android:name="com.dewerro.measurer.ui.LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_LoginFragment_to_SelectImageFragment"
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/SignupFragment"
-        android:name="com.dewerro.measurer.fragments.SignUpFragment"
+        android:name="com.dewerro.measurer.ui.SignUpFragment"
         tools:layout="@layout/fragment_sign_up">
         <action
             android:id="@+id/action_SignupFragment_to_SelectImageFragment"
@@ -26,7 +26,7 @@
     </fragment>
     <fragment
         android:id="@+id/SelectImageFragment"
-        android:name="com.dewerro.measurer.fragments.SelectImageFragment"
+        android:name="com.dewerro.measurer.ui.SelectImageFragment"
         tools:layout="@layout/fragment_select_image">
         <action
             android:id="@+id/action_SelectImageFragment_to_ARFragment"
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/ARFragment"
-        android:name="com.dewerro.measurer.fragments.ARFragment"
+        android:name="com.dewerro.measurer.ui.ARFragment"
         tools:layout="@layout/fragment_ar">
         <action
             android:id="@+id/action_ARFragment_to_MeasureFragment"
@@ -48,7 +48,7 @@
     </fragment>
     <fragment
         android:id="@+id/ImageFragment"
-        android:name="com.dewerro.measurer.fragments.ImageFragment"
+        android:name="com.dewerro.measurer.ui.ImageFragment"
         tools:layout="@layout/fragment_image">
         <action
             android:id="@+id/action_ImageFragment_to_MeasureFragment"
@@ -56,7 +56,7 @@
     </fragment>
     <fragment
         android:id="@+id/MeasureFragment"
-        android:name="com.dewerro.measurer.fragments.MeasureFragment"
+        android:name="com.dewerro.measurer.ui.MeasureFragment"
         tools:layout="@layout/fragment_measure">
         <action
             android:id="@+id/action_MeasureFragment_to_OrderProcessingFragment"
@@ -64,7 +64,7 @@
     </fragment>
     <fragment
         android:id="@+id/OrderProcessingFragment"
-        android:name="com.dewerro.measurer.fragments.order.OrderProcessingFragment"
+        android:name="com.dewerro.measurer.ui.order.OrderProcessingFragment"
         tools:layout="@layout/fragment_order_processing">
         <action
             android:id="@+id/action_OrderProcessingFragment_to_OrderSuccessFragment"
@@ -75,7 +75,7 @@
     </fragment>
     <fragment
         android:id="@+id/OrderFailureFragment"
-        android:name="com.dewerro.measurer.fragments.order.OrderFailureFragment"
+        android:name="com.dewerro.measurer.ui.order.OrderFailureFragment"
         tools:layout="@layout/fragment_order_failure">
         <action
             android:id="@+id/action_OrderFailureFragment_to_OrderProcessingFragment"
@@ -86,7 +86,7 @@
     </fragment>
     <fragment
         android:id="@+id/OrderSuccessFragment"
-        android:name="com.dewerro.measurer.fragments.order.OrderSuccessFragment"
+        android:name="com.dewerro.measurer.ui.order.OrderSuccessFragment"
         tools:layout="@layout/fragment_order_success">
         <action
             android:id="@+id/action_OrderSuccessFragment_to_SelectImageFragment"
