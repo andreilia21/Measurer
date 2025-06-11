@@ -1,7 +1,7 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.gms.google-services")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -40,42 +40,27 @@ android {
     }
 }
 
-val androidx_core_version = "1.16.0"
-val appcompat_version = "1.7.1"
-val material_version = "1.12.0"
-val constraintlayout_version = "2.2.1"
-val navigation_fragment_version = "2.9.0"
-val navigation_ui_version = "2.9.0"
-val junit_version = "4.13.2"
-val android_junit_version = "1.2.1"
-val espresso_core_version = "3.6.1"
-val firebase_auth_version = "23.2.1"
-val firebase_firestore_version = "25.1.4"
-val ar_sceneform_ux_version = "1.17.1"
-val ar_sceneform_core_version = "1.17.1"
-val ar_core_version = "1.49.0"
-
 dependencies {
     // Default dependencies
-    implementation("androidx.core:core-ktx:$androidx_core_version")
-    implementation("androidx.appcompat:appcompat:$appcompat_version")
-    implementation("com.google.android.material:material:$material_version")
-    implementation("androidx.constraintlayout:constraintlayout:$constraintlayout_version")
-    implementation("androidx.navigation:navigation-fragment-ktx:$navigation_fragment_version")
-    implementation("androidx.navigation:navigation-ui-ktx:$navigation_ui_version")
-    testImplementation("junit:junit:$junit_version")
-    androidTestImplementation("androidx.test.ext:junit:$android_junit_version")
-    androidTestImplementation("androidx.test.espresso:espresso-core:$espresso_core_version")
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation(platform("com.google.firebase:firebase-bom:33.15.0"))
+    implementation(platform(libs.firebase.bom))
 
     // Firebase Auth
-    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation(libs.firebase.auth.ktx)
     // Firebase Firestore
-    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation(libs.firebase.firestore.ktx)
 
     // AR Core
-    implementation("com.google.ar.sceneform.ux:sceneform-ux:$ar_sceneform_ux_version")
-    implementation("com.google.ar.sceneform:core:$ar_sceneform_core_version")
-    implementation("com.google.ar:core:$ar_core_version")
+    implementation(libs.sceneform.ux)
+    implementation(libs.sceneform.core)
+    implementation(libs.ar.core)
 }
