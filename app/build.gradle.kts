@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.services)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt.android)
 }
 
 android {
@@ -62,6 +64,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     implementation(libs.androidx.navigation.compose)
+
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
 
     // remove
     implementation(libs.androidx.core.ktx)

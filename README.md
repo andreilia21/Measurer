@@ -8,6 +8,8 @@ TODO
 
 ## Built with
 
+* Jetpack Compose
+* Dagger Hilt
 * Google ARCore
 * Firebase
 
